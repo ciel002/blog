@@ -1,0 +1,13 @@
+flask
+flask_sqlalchemy
+flask_migrate
+flask_script
+flask_login
+flask_openid
+flask_wtf
+flask_mail
+wtforms
+mysql-connector
+pillow
+flask_cache
+redis

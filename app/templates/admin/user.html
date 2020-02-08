@@ -1,0 +1,93 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">用户信息</h3>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group">
+                        <a href="{{ url_for('admin.add_user') }}" class="btn btn-block btn-primary">添加用户</a>
+                    </div>
+                    <div class="pull-right">
+                        <select class="form-control" name="group" id="group">
+                            <option value="0">全部</option>
+                            {% for group in groups %}
+                                {% if group_id == group.id %}
+                                    <option value="{{ group.id }}" selected>{{ group.name }}</option>
+                                {% else %}
+                                    <option value="{{ group.id }}">{{ group.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>昵称</th>
+                            <th>用户组</th>
+                            <th>注册时间</th>
+                            <th>上次登录时间</th>
+                            <th>文章数量</th>
+                            <th>评论数量</th>
+                            <th>电子邮箱</th>
+                            <th>微信</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.groupname }}</td>
+                                <td>{{ user.register_time }}</td>
+                                <td>{{ user.last_login_time }}</td>
+                                <td>{{ user.post_total }}</td>
+                                <td>{{ user.comment_total }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.wechat }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.alter_user', user_id = user.id) }}"
+                                       class="btn btn-primary btn-sm">修改</a>
+                                    <a href="{{ url_for('admin.user', user_id = user.id) }}"
+                                            {% if user.deletable == False %}
+                                       class="btn btn-danger btn-sm disabled"
+                                            {% else %}
+                                       class="btn btn-primary btn-sm"
+                                            {% endif %}>删除</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" role="status">Showing
+                                {{ (pagination.page-1)* web_config.web_admin_user_per_page|int +1 }}
+                                to {{ pagination.page * web_config.web_admin_user_per_page|int }} of {{ users_total }}
+                                entries
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            {% import 'common/users_pages.html' as pg %}
+                            {{ pg.paginate(pagination,'admin.user', group_id) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $("#group").change(function () {
+            location.href = "{{ url_for('admin.user', gid='gid') }}".replace("gid", $("#group").val());
+        });
+    </script>
+{% endblock %}

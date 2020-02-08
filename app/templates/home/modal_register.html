@@ -1,0 +1,91 @@
+<div class="modal fade" id="modal-register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">注册</h4>
+            </div>
+            <form action="{{ url_for("home.register") }}" class="form-horizontal" method="post">
+                <div class="modal-body">
+                    {{ registerForm.hidden_tag() }}
+                    <div class="form-group">
+                        {{ registerForm.Email.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.Email }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ registerForm.Name.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.Name }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ registerForm.Password.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.Password }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ registerForm.RePassword.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.RePassword }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ registerForm.VerifyCode.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.VerifyCode }}
+                            <img class="verify_code" src="{{ url_for('tool.graph_captcha') }}"
+                                 onclick="this.src='/tool/captcha?'+ Math.random()" style="margin-top: 10px">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="send-email" type="button" class="btn btn-default">发送邮件验证</button>
+                    {{ registerForm.submit }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        $(function () {
+            $('#modal-register').on('hide.bs.modal', function () {
+                $('#box-modal').html("");
+                bootoast({message: '取消!!!', type: 'info',
+                    timeout: 1.5, animationDuration: 700, dismissable: false});
+            })
+        });
+
+        $('#send-email').on('click', function () {
+            var recipients = $('#register-box #Email').val();
+            var url = "{{ url_for("tool.send_register_email") }}";
+            $.ajax({
+                url: url,
+                data: recipients,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == "1") {
+                        bootoast({
+                            message: res.message, type: 'info',
+                            timeout: 1.5, animationDuration: 700, dismissable: false
+                        });
+                    } else {
+                        bootoast({
+                            message: res.message, type: 'danger',
+                            timeout: 1.5, animationDuration: 700, dismissable: false
+                        });
+                    }
+                }
+            });
+        });
+    })
+</script>

@@ -1,0 +1,149 @@
+{% extends 'home/base.html' %}
+{% block main %}
+<div class="post-header text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ post.title }}</h1>
+                <ul class="list-inline">
+                    <li><i class="fa fa-clock-o"></i> {{ post.create_time }}</li>
+                    <li><i class="fa fa-user"></i> {{ post.name }}</li>
+                    <li><i class="fa fa-tag"></i> <a
+                            href="{{ url_for('home.category', category_sub_name=post.category_sub_name) }}">{{ post.category_name }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="post-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                {% autoescape False %}
+                {{ post.content }}
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="comment-box">
+    <div class="container">
+        <div class="comment-list">
+            {% if post_comment %}
+                <h3>评论</h3>
+                {% for comment in post_comment %}
+                    <div class="comment row">
+                        <div class="comment-header text-center col-md-2 col-sm-3">
+                            <div class="comment-img">
+                                {% if comment.avatar %}
+                                    <img id="current_avatar"
+                                         src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                                         class="img-circle img-responsive"
+                                         alt="User Image" style="height: 100px">
+                                    <div>
+                                        {#                                        <p class="h3 text-center">{{ comment.name }}</p>#}
+                                    </div>
+                                {% else %}
+                                    <img id="current_avatar"
+                                         src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
+                                         class="img-circle img-responsive center" width="250px" height="250px">
+                                {% endif %}
+                            </div>
+                            <div class="comment-user"><a href=""><h4>{{ comment.username }}</h4></a></div>
+                        </div>
+                        <div class="comment-main col-md-10 col-sm-9">
+                            <div class="comment-body">
+                                <div class="comment-meta"><span><i
+                                        class="fa fa-clock-o"></i> {{ comment.create_time }}</span>
+                                </div>
+                                <div class="comment-content">{{ comment.content }}</div>
+                            </div>
+                            <div class="comment-footer clearfix">
+                                <button class="btn btn-sm btn-default pull-right">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="comment-box">
+            <div class="row">
+                {% if current_user.is_authenticated %}
+                    <h3>发表评论
+                        <small class="pull-right">请各位姥爷文明评论</small>
+                    </h3>
+                    <div class="col-sm-4 col-md-3 text-center">
+                        {% if current_user.avatar %}
+                            <img id="current_avatar" src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                                 class="img-circle img-responsive"
+                                 alt="User Image" style="height: 200px">
+                            <div>
+                                <p class="h3">{{ current_user.name }}</p>
+                            </div>
+                        {% else %}
+                            <img id="current_avatar"
+                                 src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
+                                 class="img-circle img-responsive center" width="250px" height="250px">
+                        {% endif %}
+                    </div>
+                    <form id="form_comment" class="col-sm-8 col-md-9" action="" method="post">
+                        <textarea class="form-control" name="comment" id="comment" placeholder="发表评论"></textarea>
+                        <div>
+                            <input id="button" type="button" class="btn btn-default" value="评论">
+                            <div class="pull-right">
+                                <small>0</small>
+                                /
+                                <small>140</small>
+                            </div>
+                        </div>
+
+                    </form>
+                {% else %}
+                    <h3 class="text-center"><p style="padding-top: 10px">请<a>登录</a>后再进行评论或回复</p></h3>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        $('.post-content').click(function (e) {
+            e.target.tagName === 'IMG' && BigPicture({
+                el: e.target,
+                imgSrc: e.target.src.replace('_thumb', '')
+            });
+        });
+    </script>
+    <script>
+        $(document).off("click", "#button").on("click", "#button", function () {
+            var content = $("#comment").val();
+            var data = {
+                'content': content
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for("home.add_post_comment", pid=post.id) }}",
+                dataType: "json",
+                data: data,
+                success: function (res) {
+                    if (res.code == 1)
+                        $(".comment-box").html(res.data);
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            });
+        });
+
+        $("#comment").on("change", function () {
+            console.log($("#comment").val().length);
+        })
+    </script>
+{% endblock %}

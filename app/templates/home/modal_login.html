@@ -1,0 +1,75 @@
+<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">登录</h4>
+            </div>
+            <form id="form-login" action="{{ url_for("home.login") }}" class="form-horizontal" method="post">
+                <div class="modal-body">
+                    {{ loginForm.hidden_tag() }}
+                    <div class="form-group">
+                        {{ loginForm.Email.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ loginForm.Email }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ loginForm.Password.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ loginForm.Password }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ loginForm.VerifyCode.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ loginForm.VerifyCode }}
+                            <img class="verify_code" src="{{ url_for('tool.graph_captcha') }}"
+                                 onclick="this.src='/tool/captcha?'+ Math.random()" style="margin-top: 10px">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {{ loginForm.submit }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#modal-login').on('hide.bs.modal', function () {
+                $('#box-modal').html("");
+            });
+
+            $("#submit").on('click', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('home.login') }}",
+                    data: $('#form-login').serialize(),
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            var current_url = window.location.href;
+                            window.location.href = current_url ? current_url : "{{ url_for('home.index') }}";
+                        } else if (res.code == 0) {
+                            bootoast({
+                                message: res.msg,
+                                type: 'danger',
+                                position: 'bottom',
+                                dismissable: false,
+                                timeout: 2,
+                                animateDuration: 700
+                            })
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+{% endblock %}

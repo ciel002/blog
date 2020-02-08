@@ -1,0 +1,63 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">用户组信息</h3>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group">
+                        <a href="{{ url_for('admin.add_group') }}" class="btn btn-block btn-primary">添加用户组</a>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>权限</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for group in groups %}
+                            <tr>
+                                <td>{{ group.id }}</td>
+                                <td>{{ group.name }}</td>
+                                <td>{{ group.authority }}</td>
+                                {% if group.status == 4 %}
+                                    <td class="text-success">正在使用</td>
+                                {% else %}
+                                    <td class="text-danger">已禁用</td>
+                                {% endif %}
+                                <td>{{ group.create_time }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.alter_group', group_id = group.id) }}"
+                                       class="btn btn-primary btn-sm">修改</a>
+                                    <a href="{{ url_for('admin.user', group_id = group.id) }}"
+                                            {% if group.deletable == False %}
+                                       class="btn btn-danger btn-sm disabled"
+                                            {% else %}
+                                       class="btn btn-primary btn-sm"
+                                            {% endif %}>删除</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="dataTables_info" role="status">Showing 1 to {{ current_app }} 10
+                                of {{ groups_total }} entries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

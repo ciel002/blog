@@ -1,0 +1,113 @@
+{% extends "home/base.html" %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="user-img">
+                    <img class="center-block" src="{{ url_for("static", filename="imgs/personal-image.jpg") }}"
+                         alt="图片">
+                    <form action="{{ url_for("home.upload") }}" enctype='multipart/form-data' method='post'>
+                        <input type="file" name="img"/>
+                        <input type="submit" value="上传" class="button-new" style="margin-top:15px;"/>
+                    </form>
+                </div>
+
+                <div class="user-info text-center">
+                    <div class="h3">{{ current_user.name }}</div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <ul class="user-navbar">
+                    <li class="col-sm-3 col-xs-6"><a
+                            href="{{ url_for("home.user", user_name=current_user.name, tag="overview") }}">Overview</a>
+                    </li>
+                    <li class="col-sm-3 col-xs-6"><a
+                            href="{{ url_for("home.user", user_name=current_user.name, tag="comments") }}">Comments</a>
+                    </li>
+                    <li class="col-sm-3 col-xs-6"><a
+                            href="{{ url_for("home.user", user_name=current_user.name, tag="setting") }}">Setting</a>
+                    </li>
+                    <li class="col-sm-3 col-xs-6"><a href="{{ url_for("home.user", user_name=current_user.name, tag="reset") }}">Reset</a>
+                    </li>
+                </ul>
+                <div class="item-content">
+                    {% if tag == "overview" or not tag %}
+                        <div class="col-md-12">
+                            <h3>基本信息</h3>
+                            <div class="overview">
+
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <th>用户ID：</th>
+                                        <td>{{ current_user.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email:</th>
+                                        <td>{{ current_user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>用户名：</th>
+                                        <td>{{ current_user.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>注册时间:</th>
+                                        <td>{{ current_user.register_time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>上次登录时间：</th>
+                                        <td>{{ current_user.last_login_time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>微信：</th>
+                                        <td>{{ current_user.wechat }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% elif tag == "comments" %}
+                        <div class="col-md-12">
+                            <h3>评论列表</h3>
+                            {% if comments.__len__() %}
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc">ID</th>
+                                        <th class="sorting">内容</th>
+                                        <th class="sorting">文章源</th>
+                                        <th class="sorting">评论源</th>
+                                        <th class="sorting">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for comment in comments %}
+                                        <tr>
+                                            <td>{{ comment.id }}</td>
+                                            <td style="max-width: 500px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;">{{ comment.content }}</td>
+                                            <td>{{ comment.title }}</td>
+                                            <td>{{ comment.comment_source }}</td>
+                                            <td><a href="{{ url_for('comment', comment_id=comment.id) }}"
+                                                   class="btn btn-primary btn-sm">删除</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <h4 class="text-center">您暂时还没有评论过</h4>
+                            {% endif %}
+                        </div>
+                    {% elif tag == "setting" %}
+
+                    {% elif tag == "reset" %}
+                        <div class="col-sm-12">
+                            <button id="reset-password" class="btn btn-default">
+                                重置密码
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

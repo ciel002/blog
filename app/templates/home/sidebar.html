@@ -1,0 +1,25 @@
+<div class="search-box">
+    <form action="{{ url_for('home.search') }}" method="get">
+        <input type="search" class="form-control" name="query" id="query" placeholder="搜索文章标题">
+    </form>
+</div>
+<div class="latest-post">
+    <h4>最新文章</h4>
+    <ul>
+        {% for latest_post in latest_posts %}
+            <li>
+                <a href="{{ url_for('home.post', post_title=latest_post.title) }}">{{ latest_post.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="category-list">
+    <h4>文章分类</h4>
+    <ul>
+        {% for category in categories %}
+            <li>
+                <a href="{{ url_for('home.category', category_sub_name=category.sub_name) }}">{{ category.name }}
+                    ( {{ category.count }} )</a></li>
+        {% endfor %}
+    </ul>
+</div>

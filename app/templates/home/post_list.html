@@ -1,0 +1,29 @@
+{% for post in posts %}
+<div class="post">
+    <div class="post-title h1"><a
+            href="{{ url_for('home.post', post_title=post.title) }}">{{ post.title }}</a></div>
+    <div class="post-option">
+        <ul class="list-inline">
+            <li><i class="fa fa-clock-o"></i> {{ post.create_time }}</li>
+            <li><i class="fa fa-user"></i> {{ post.name }}</li>
+            <li><i class="fa fa-tag"></i> <a
+                    href="{{ url_for('home.category', category_sub_name=post.category_sub_name, page=1) }}">{{ post.category_name }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="post-abstract">
+        {% autoescape False %}
+        {{ post.abstract }}
+        {% endautoescape %}
+    </div>
+    <a href="{{ url_for('home.post', post_title=post.title) }}" class="btn btn-default">继续阅读</a>
+</div>
+{% endfor %}
+
+
+{% import 'common/pages.html' as pg %}
+{% if current_index == 'index' %}
+    {{ pg.paginate(pagination,'home.index') }}
+{% else %}
+    {{ pg.paginate(pagination,'home.category',current_category) }}
+{% endif %}

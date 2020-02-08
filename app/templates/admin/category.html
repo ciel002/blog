@@ -1,0 +1,82 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">分类列表</h3>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group">
+                        <a href="{{ url_for('admin.add_category') }}" class="btn btn-block btn-primary">添加新分类</a>
+                    </div>
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-hover dataTable">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc">ID</th>
+                                        <th class="sorting">名称</th>
+                                        <th class="sorting">副名称</th>
+                                        <th class="sorting">排序</th>
+                                        <th class="sorting">状态</th>
+                                        <th class="sorting">创建时间</th>
+                                        <th class="sorting">更新时间</th>
+                                        <th class="sorting">描述</th>
+                                        <th class="sorting">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for category in categories %}
+                                        <tr>
+                                            <td>{{ category.id }}</td>
+                                            <td>{{ category.name }}</td>
+                                            <td>{{ category.sub_name }}</td>
+                                            <td>{{ category.sort }}</td>
+                                            <td>{{ category.status }}</td>
+                                            <td>{{ category.create_time }}</td>
+                                            <td>{{ category.update_time }}</td>
+                                            <td>{{ category.description }}</td>
+                                            <td>
+                                                <a href="{{ url_for('admin.alter_category', category_id=category.id, category_sub_name=category.sub_name) }}"
+                                                        {% if category.deletable == False %}
+                                                   class="btn btn-danger btn-sm disabled"
+                                                        {% else %}
+                                                   class="btn btn-primary btn-sm"
+                                                        {% endif %}>修改</a>
+                                                <a href="{{ url_for('admin.category', category_id=category.id) }}"
+                                                        {% if category.deletable == False %}
+                                                   class="btn btn-danger btn-sm disabled"
+                                                        {% else %}
+                                                   class="btn btn-primary btn-sm"
+                                                        {% endif %}>删除</a>
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+{% endblock %}

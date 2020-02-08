@@ -1,0 +1,92 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">{{ navigation.title }}</h3>
+                </div>
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered table-hover dataTable">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="sorting_asc">ID</th>
+                                        <th class="sorting">作者</th>
+                                        <th class="sorting">内容</th>
+                                        <th class="sorting">评论源</th>
+                                        <th class="sorting">状态</th>
+                                        <th class="sorting">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for reply in replies %}
+                                        <tr>
+                                            <td>{{ reply.id }}</td>
+                                            <td>{{ reply.name }}</td>
+                                            <td style="max-width: 500px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;">{{ reply.content }}</td>
+                                            <td>{{ reply.cid }}</td>
+                                            {% if reply.status|int == 2 %}
+                                                <td class="text-success">显示</td>
+                                            {% else %}
+                                                <td class="text-danger">已禁用</td>
+                                            {% endif %}
+                                            {% if navigation.tag == "dustbin_post_reply" %}
+                                                <td>
+                                                    <a href="{{ url_for('admin.dustbin_post_reply', restore_id=reply.id) }}"
+                                                       class="btn btn-primary btn-sm">还原</a>
+                                                    <a href="{{ url_for('admin.dustbin_post_reply', delete_id=reply.id) }}"
+                                                       class="btn btn-primary btn-sm">删除</a></td>
+                                            {% else %}
+                                                <td><a href="{{ url_for('admin.post_reply', delete_id=reply.id) }}"
+                                                       class="btn btn-primary btn-sm">删除</a></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" role="status">Showing
+                                {{ (pagination.page-1)* web_config.web_admin_comment_reply_per_page|int +1 }}
+                                to {{ pagination.page * web_config.web_admin_comment_reply_per_page|int }}
+                                of {{ comments_count }}
+                                entries
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            {% import 'common/pages.html' as pg %}
+                            {% if navigation.tag == "post_reply" %}
+                                {{ pg.paginate(pagination,'admin.post_reply') }}
+                            {% else %}
+                                {{ pg.paginate(pagination,'admin.dustbin_post_reply') }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+{% endblock %}

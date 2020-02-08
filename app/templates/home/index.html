@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-12">
+                {% if posts.__len__() == 0 %}
+                    <h3>没有相应的文章</h3>
+                {% endif %}
+                {% include 'home/post_list.html' %}
+            </div>
+            <div class="col-md-3 hidden-xs hidden-sm">
+                <div class="sidebar">
+                    {% include 'home/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('.post-abstract').click(function (e) {
+            e.target.tagName === 'IMG' && BigPicture({
+                el: e.target,
+                imgSrc: e.target.src.replace('_thumb', '')
+            });
+        });
+    </script>
+{% endblock %}

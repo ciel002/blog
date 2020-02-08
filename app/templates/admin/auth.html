@@ -1,0 +1,72 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">{{ navigation.title }}</h3>
+                </div>
+                <div class="box-body">
+                    {% if navigation.tag == "auth" %}
+                        <div class="btn-group">
+                            <a href="{{ url_for('admin.add_auth') }}" class="btn btn-block btn-primary">添加权限</a>
+                        </div>
+                    {% endif %}
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>描述</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for auth in auths %}
+                            <tr>
+                                <td>{{ auth.id }}</td>
+                                <td>{{ auth.name }}</td>
+                                <td>{{ auth.description }}</td>
+                                {% if auth.status == 4 %}
+                                    <td class="text-success">正在使用</td>
+                                {% else %}
+                                    <td class="text-danger">已禁用</td>
+                                {% endif %}
+                                <td>{{ auth.create_time }}</td>
+                                {% if navigation.tag == "dustbin_auth" %}
+                                    <td>
+                                        <a href="{{ url_for('admin.dustbin_auth', restore_id=auth.id) }}"
+                                           class="btn btn-primary btn-sm">还原</a>
+                                        {% if auth.deletable %}
+                                            <a href="{{ url_for('admin.dustbin_auth', delete_id=auth.id) }}"
+                                               class="btn btn-primary btn-sm">删除</a></td>
+                                        {% else %}
+                                            <a href="{{ url_for('admin.dustbin_auth', delete_id=auth.id) }}"
+                                               class="btn btn-danger btn-sm disabled">删除</a></td>
+                                        {% endif %}
+                                    <a href="{{ url_for('admin.dustbin_auth', delete_id=auth.id) }}"
+                                       class="btn btn-primary btn-sm">删除</a></td>
+                                {% else %}
+                                    <td><a href="{{ url_for('admin.auth', delete_id=auth.id) }}"
+                                           class="btn btn-primary btn-sm">弃用</a></td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="dataTables_info" role="status">Showing 1 to {{ auths_total }}
+                                of {{ auths_total }} entries
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

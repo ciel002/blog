@@ -1,0 +1,113 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header"></div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    {{ form.title.label }}
+                                    {{ form.title }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.author.label }}
+                                    {{ form.author }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.abstract.label }}
+                                    {{ form.abstract }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.content.label }}
+                                    {{ form.content }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    {{ form.rank.label }}
+                                    {{ form.rank }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.is_top.label }}
+                                    {{ form.is_top }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.category_id.label }}
+                                    {{ form.category_id }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.post_property.label }}
+                                    {{ form.post_property }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.status.label }}
+                                    {{ form.status }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        {{ form.submit }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#abstract').froalaEditor({
+                enter: $.FroalaEditor.ENTER_P,
+                placeholderText: null,
+                heightMin: 200,
+                charCounterMax: 800,
+                imageUploadURL: '{{ url_for('tool.upload_image_froala') }}',//上传到本地服务器
+                imageUploadMethod: 'POST',
+                params: {
+                    acl: '01',
+                    AWSAccessKeyId: '02',
+                    policy: '03',
+                    signature: '04',
+                },
+                autosave: true,
+                autosaveInterval: 2500,
+                saveParams: {postId: '1'},
+                spellcheck: false,
+                language: 'zh_cn'
+            })
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#content').froalaEditor({
+                enter: $.FroalaEditor.ENTER_P,
+                placeholderText: null,
+                heightMin: 450,
+                charCounterMax: 9999,
+                imageUploadURL: '{{ url_for('tool.upload_image_froala') }}',//上传到本地服务器
+                imageUploadMethod: 'POST',
+                videoUploadURL: '{{ url_for('tool.upload_video_froala') }}',
+                videoUploadMethod: 'POST',
+                params: {
+                    acl: '01',
+                    AWSAccessKeyId: '02',
+                    policy: '03',
+                    signature: '04',
+                },
+                autosave: true,
+                autosaveInterval: 2500,
+                saveParams: {postId: '1'},
+                spellcheck: false,
+                language: 'zh_cn'
+            }).on('froalaEditor.image.error', function (e, editor, error, response) {
+                console.log(error);
+            });
+        });
+    </script>
+{% endblock %}

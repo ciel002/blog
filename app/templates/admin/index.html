@@ -1,0 +1,139 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ context['posts_count'] }}</h3>
+                    <p>文章数</p>
+                </div>
+                <div class="icon">
+                    <i class="icon icon-bar"></i>
+                </div>
+                <a href="{{ url_for('admin.post') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>150</h3>
+                    <p>浏览数</p>
+                </div>
+                <div class="icon">
+                    <i class="icon icon-bar"></i>
+                </div>
+                <a href="{{ url_for('admin.post') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ context['comments_count'] }}</h3>
+                    <p>评论数</p>
+                </div>
+                <div class="icon">
+                    <i class="icon icon-bar"></i>
+                </div>
+                <a href="{{ url_for('admin.comment') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ context['users_count'] }}</h3>
+                    <p>用户数</p>
+                </div>
+                <div class="icon">
+                    <i class="icon icon-bar"></i>
+                </div>
+                <a href="{{ url_for('admin.user') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">文章浏览次数</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="view-line-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        </div>
+        <div class="col-md-12">
+            <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">文章评论次数</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body chart-responsive">
+                <div class="chart" id="reply-line-chart" style="height: 300px;"></div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        var view_line = new Morris.Line({
+            element: 'view-line-chart',
+            resize: true,
+            data: [
+                {y: '2011 Q1', item1: 2666},
+                {y: '2011 Q2', item1: 2778},
+                {y: '2011 Q3', item1: 4912},
+                {y: '2011 Q4', item1: 3767},
+                {y: '2012 Q1', item1: 6810},
+                {y: '2012 Q2', item1: 5670},
+                {y: '2012 Q3', item1: 4820},
+                {y: '2012 Q4', item1: 15073},
+                {y: '2013 Q1', item1: 10687},
+                {y: '2013 Q2', item1: 8432}
+            ],
+            xkey: 'y',
+            ykeys: ['item1'],
+            labels: ['Item 1'],
+            lineColors: ['#3c8dbc'],
+            hideHover: 'auto'
+        });
+
+        var reply_line = new Morris.Line({
+            element: 'reply-line-chart',
+            resize: true,
+            data: [
+                {y: '2011 Q1', item1: 2666},
+                {y: '2011 Q2', item1: 2778},
+                {y: '2011 Q3', item1: 4912},
+                {y: '2011 Q4', item1: 3767},
+                {y: '2012 Q1', item1: 6810},
+                {y: '2012 Q2', item1: 5670},
+                {y: '2012 Q3', item1: 4820},
+                {y: '2012 Q4', item1: 15073},
+                {y: '2013 Q1', item1: 10687},
+                {y: '2013 Q2', item1: 8432}
+            ],
+            xkey: 'y',
+            ykeys: ['item1'],
+            labels: ['Item 1'],
+            lineColors: ['#3c8dbc'],
+            hideHover: 'auto'
+        });
+    </script>
+{% endblock %}
