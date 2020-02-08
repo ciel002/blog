@@ -9,13 +9,12 @@ from app.view.home import home
 @home.route('/category/<string:category_sub_name>')
 @home.route('/category/<string:category_sub_name>/list/<int:page>')
 def category(category_sub_name, page=1):
-    categories = Category.get_all_categories()
-    pagination = get_home_category_paginate(page=page, per_page=3, category_sub_name=category_sub_name)
+    from app.function.config import get_config
+    pagination = get_home_category_paginate(page=page, per_page=int(get_config("web_home_posts_pages")), category_sub_name=category_sub_name)
     latest_posts = Post.get_latest_posts(5)
     return render_template(
         'home/index.html',
         current_category=category_sub_name,
-        categories=categories,
         posts=pagination.items,
         latest_posts=latest_posts,
         pagination=pagination,

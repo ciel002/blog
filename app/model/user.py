@@ -55,7 +55,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.name
 
-    def add_one(self, avatar_id):
+    def add_one(self):
         db.session.add(self)
         db.session.commit()
 
@@ -107,31 +107,53 @@ class User(UserMixin, db.Model):
 
         return results
 
-    def can(self, permission):
-        authority = db.session.query(UserGroup.authority).filter(UserGroup.id == self.group_id).first()
-        if str(permission) in authority[0]:
-            return True
-        return False
-
-    def is_administrator(self):
-        return self.can(1)
-
-    def generate_token(self, expiration=600):
-        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id}).decode(encoding="utf-8")
-
     @staticmethod
-    def reset_password(token, new_password):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token.encode('utf-8'))
-        except:
-            return False
-        uid = data.get('id')
-        user = User.query.get(uid)
-        user.set_hash_password(new_password)
-        db.session.commit()
+    def get_user_info(uid):
+        from app.model.post import Post, PostComment
+
+        table4 = db.session.query(User.id, User.name, UserGroup.name.label('groupname')
+                                  , User.register_time, User.last_login_time, User.email, User.wechat,
+                                  User.deletable
+                                  , func.count(PostComment.uid).label('comment_total'), User.deletable, User.avatar).outerjoin(
+            PostComment,
+            User.id == PostComment.uid).filter(
+            UserGroup.id == User.group_id, User.id == uid).group_by(User.id).subquery()
+        results = db.session.query(table4.c.id, table4.c.name, table4.c.groupname, table4.c.register_time,
+                                   table4.c.last_login_time, func.count(Post.uid).label('post_total'),
+                                   table4.c.comment_total, table4.c.email, table4.c.wechat,
+                                   table4.c.deletable).outerjoin(
+            Post, Post.uid == table4.c.id).group_by(table4.c.id).first()
+        return results
+
+
+def can(self, permission):
+    authority = db.session.query(UserGroup.authority).filter(UserGroup.id == self.group_id).first()
+    if str(permission) in authority[0]:
         return True
+    return False
+
+
+def is_administrator(self):
+    return self.can(1)
+
+
+def generate_token(self, expiration=600):
+    s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
+    return s.dumps({'id': self.id}).decode(encoding="utf-8")
+
+
+@staticmethod
+def reset_password(token, new_password):
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token.encode('utf-8'))
+    except:
+        return False
+    uid = data.get('id')
+    user = User.query.get(uid)
+    user.set_hash_password(new_password)
+    db.session.commit()
+    return True
 
 
 class UserActivated(db.Model):

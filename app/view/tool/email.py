@@ -1,6 +1,6 @@
 import html
 
-from flask import request, json, render_template_string, render_template, url_for
+from flask import request, json, render_template_string, render_template, session
 from flask_login import current_user
 
 from threading import Thread
@@ -8,7 +8,7 @@ from flask_mail import Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from app import mail
-from app.view.home import home
+from app.function.verifycode import yzm
 from app.view.tool import tool
 
 
@@ -48,17 +48,18 @@ def send_register_email():
         # 配置邮件模板
         from manager import app
         from app.function.config import get_config
-        template = html.unescape(get_config("web_mail_validation_template"))
-        template = render_template_string(template, user=current_user, token=generate_token(recipients))
+        code = yzm(6)
+        session[recipients] = code
+        html = render_template('common/email_register.html', code=code)
         msg = Message(subject='郝明宸的个人博客来信', sender=get_config("web_mail_smtp_user"), recipients=[recipients],
-                      html=template)
+                      html=html)
         thread = Thread(target=send_async_email, args=[app, msg])
         thread.start()
         return json.dumps({
             "code": 1,
             "message": "发送成功"
         })
-    except:
+    except Exception as e:
         return json.dumps({
             "code": -1,
             "message": "发送失败"

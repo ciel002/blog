@@ -42,7 +42,7 @@
                 {% endfor %}
                 {% if current_user.is_authenticated %}
                     <li>
-                        <a href="{{ url_for("home.user", user_name=current_user.name, tag="overview") }}">用户：{{ current_user.name }}</a>
+                        <a href="{{ url_for("home.user") }}">用户：{{ current_user.name }}</a>
                     </li>
                     <li><a href="{{ url_for("home.logout") }}">注销</a></li>
                 {% else %}

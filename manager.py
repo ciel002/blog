@@ -26,8 +26,10 @@ from app.function import *
 @app.context_processor
 def my_context_processor():
     from app.model.setting import Config
+    from app.model.cat import Category
     return dict(
         web_config=Config.get_config(),
+        categories=Category.get_all_categories(),
     )
 
 

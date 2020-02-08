@@ -1,0 +1,17 @@
+{% extends 'common/email_template.html' %}
+
+{% block content %}
+    <div class="title" style="margin: 0 auto;color: #000;height: 30px;padding: 12px 24px;font-size: 14px;border: 1.5px solid #ccc;background-color: #d8d8d8"><b>您好，如果这不是您发起的验证码请求，请不要点击此邮件中的任何内容</b></div>
+		<div class="content" style="padding: 20px 30px;border-left:1.5px solid #ccc;border-right:1.5px solid #ccc">
+			<h3>以下是您的验证码:</h3>
+			<h2>{{  code  }}</h2>
+			<p>亲爱的用户，您好！</p>
+			<p>我们收到了来自您注册博客账号的请求，请使用上面的验证码验证您的注册邮箱</p>
+			<p><i><b>请注意:</b></i>该验证码将在<b>10分钟</b>后过期，请尽快验证！</p>
+			<p>希望您能在本博客有良好的体验</p>
+			<p>郝明宸</p>
+		</div>
+		<div class="footer" style="margin: 0 auto;color: #000;height: 100px;padding: 30px 20px;border: 1.5px solid #ccc;font-size: 14px;background-color: #d8d8d8">
+			<p style="">如果您有任何疑问请访问<a href="#">郝明宸的个人博客</a>。</p>
+		</div>
+{% endblock %}

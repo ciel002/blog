@@ -6,6 +6,10 @@ body{
 a,a:hover,a:focus{
     color: #000000;
 }
+ul,li{
+    list-style-type: none;
+    padding: 0;
+}
 .navbar-fixed-top{
     background: #ffffff;
     border-bottom: 1px solid #dddddd;
@@ -145,31 +149,139 @@ a,a:hover,a:focus{
 .comment-footer button{
 
 }
-.user-img img{
+
+.u_header{
+    height: 50px;
+    margin-bottom: 20px;
+    margin-right: 105px;
+    border-bottom: 2px #ebebeb solid;
+}
+
+.u_header h1{
+    width: 167px;
+    height: 50px;
+    font-size: 30px;
+    color: #555;
+    border-bottom: 2px solid #000;
+    text-align: center;
+}
+.u_nav{
+    width: 167px;
+}
+.u_nav li{
+    display: block;
+    margin-bottom: 1px;
+}
+.u_nav .u_active{
+    /*background-color: red;*/
+}
+.u_nav li a{
+    position: relative;
+    display: block;
+    color: #333;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    border-bottom: 1px #eee solid;
+    text-align: center;
+}
+.u_mainbody{
+    margin-left: 20px;
+}
+.u_mainbody .u_title{
+    line-height: 45px;
+    height: 45px;
+    background: #f5f5f5;
+}
+.u_mainbody .u_title p{
+    font-size: 17px;
+    margin-left: 30px;
+    font-weight: 500;
+}
+.u_tab{
+    margin-bottom: 10px;
+}
+.u_info_avatar{
+    width: 220px;
+    height: 266px;
+    margin: 20px;
+}
+.u_info_avatar img{
     width: 220px;
     height: 220px;
 }
-
-.user-navbar{
-    border-bottom: 1px solid #eeeeee;
-    padding: 15px 20px 30px;
-    text-align: center;
+.u_info_avatar button{
+    margin: 20px auto 0;
+    display: block;
 }
-.user-navbar li{
-    list-style: none;
-    /*width: 24%;*/
-    /*display: inline-block;*/
-    /*text-align: center;*/
+.u_info_detail{
+    font-size: 16px;
+    margin-top: 30px;
 }
-.item-content{
-    margin: 0 30px;
+.u_info_detail p{
+    display: inline-block;
+    margin-right: 16px;
+    margin-bottom: 16px;
 }
-.overview{
-    margin: 20px 0;
+.u_info_name{
+    font-size: 18px;
 }
-
-
-
+.u_info_name button{
+    font-size: 16px;
+    margin-left: 30px;
+    display: inline-block;
+}
+.u_bind_item{
+    height: 100px;
+    padding: 25px 10px;
+}
+.u_bind_item p{
+    margin: -3px 0;
+    height: 24px;
+    line-height: 24px;
+}
+.u_bind_item .u_bind_icon{
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin-left:20px;
+    margin-right: 3px;
+}
+.u_bind_item .bind_email_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat -35px -65px;
+}
+.u_bind_item .bind_phone_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat -35px  5px;
+}
+.u_bind_item .bind_qq_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat -35px -275px;
+}
+.u_bind_item .bind_wechat_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat -35px -355px;
+}
+.u_bind_item .bind_password_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat -35px -30px;
+}
+.u_bind_item .bind_delete_icon{
+    margin-top: 2px;
+    background: url("../../imgs/account_cancel_entry.png") no-repeat left center;
+}
+.u_bind_title{
+    font-weight: 600;
+}
+.u_bind_subtitle{
+    color: #737373;
+}
+.u_bind_button{
+    height: 35px;
+    margin-top: 6px;
+    float: right;
+}
 
 
 footer{

@@ -12,7 +12,6 @@ def login():
     form = LoginForm()
     if request.method == "POST":
         verify = session['verify_code'].lower() == form.VerifyCode.data.lower()
-        print("form.validate() is ", form.validate(), " and", "verify is ", verify)
         if not form.validate():
             return Response(json.dumps({'code': 0, 'msg': form.get_first_error()}), content_type='application/json')
         if verify:
@@ -27,11 +26,31 @@ def login():
         return Response(json.dumps({'code': 0, 'msg': "验证码不正确"}), content_type='application/json')
 
 
-
 @home.route("/modal_login/")
 def modal_login():
     form = LoginForm()
     return render_template("home/modal_login.html", loginForm=form)
+
+
+@home.route("/register/", methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if request.method == "POST":
+        if not form.validate():
+            return Response(json.dumps({'code': 0, 'msg': form.get_first_error()}), content_type='application/json')
+        if not session['verify_code'].lower() == form.VerifyCode.data.lower():
+            return Response(json.dumps({'code': 0, 'msg': "验证码不正确"}), content_type='application/json')
+        if not session[form.Email.data].lower() == form.SmsCode.data.lower():
+            return Response(json.dumps({'code': 0, 'msg': "邮箱验证码不正确"}), content_type='application/json')
+        user = User.query.filter_by(email=form.Email.data).first()
+        if user is not None:
+            return Response(json.dumps({'code': 0, 'msg': "用户已经存在"}), content_type='application/json')
+        else:
+            new_user = User(name=form.Name.data, password=form.Password.data,
+                            email=form.Email.data)
+            new_user.add_one()
+            login_user(new_user)
+            return Response(json.dumps({'code': 1, 'msg': '注册成功'}), content_type='application/json')
 
 
 @home.route("/modal_register/")
@@ -48,20 +67,3 @@ def logout():
         return redirect(request.referrer)
     else:
         return redirect(url_for("home.index"))
-
-
-@home.route("/register/", methods=["GET", "POST"])
-def register():
-    form = RegisterForm()
-    if request.method == "POST":
-        verify = session['verify_code'].lower() == form.VerifyCode.data.lower()
-        if form.validate_on_submit() and verify:
-            user = User.query.filter_by(email=form.Email.data).first()
-            if user is not None:
-                print("用户已存在")
-            else:
-                new_user = User(name=form.UserName.data, password=form.Password.data,
-                                email=form.Email.data)
-                new_user.add_one()
-                login_user(new_user)
-    return redirect(request.referrer or url_for('home.index'))

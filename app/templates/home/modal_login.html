@@ -58,12 +58,8 @@
                             window.location.href = current_url ? current_url : "{{ url_for('home.index') }}";
                         } else if (res.code == 0) {
                             bootoast({
-                                message: res.msg,
-                                type: 'danger',
-                                position: 'bottom',
-                                dismissable: false,
-                                timeout: 2,
-                                animateDuration: 700
+                                message: res.msg, type: 'danger',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
                             })
                         }
                     }

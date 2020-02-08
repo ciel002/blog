@@ -16,8 +16,7 @@ def post(post_title):
                                                  , Post.category_id == Category.id,
                                                  Post.title == post_title).first()
     post_comment = PostComment.get_post_comments(post.id)
-    categories = Category.query.all()
-    return render_template('home/post.html', categories=categories, post=post, post_comment=post_comment)
+    return render_template('home/post.html', post=post, post_comment=post_comment)
 
 
 @home.route('/post/add_comment/<int:pid>', methods=['GET', 'POST'])

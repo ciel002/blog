@@ -6,7 +6,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">注册</h4>
             </div>
-            <form action="{{ url_for("home.register") }}" class="form-horizontal" method="post">
+            <form id="form-register" class="form-horizontal" method="post">
                 <div class="modal-body">
                     {{ registerForm.hidden_tag() }}
                     <div class="form-group">
@@ -34,6 +34,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        {{ registerForm.SmsCode.label(class="col-sm-2 control-label") }}
+                        <div class="col-sm-9">
+                            {{ registerForm.SmsCode }}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         {{ registerForm.VerifyCode.label(class="col-sm-2 control-label") }}
                         <div class="col-sm-9">
                             {{ registerForm.VerifyCode }}
@@ -43,8 +49,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="send-email" type="button" class="btn btn-default">发送邮件验证</button>
+                    <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="send-register-email" type="button" class="btn btn-default">发送邮件验证</button>
                     {{ registerForm.submit }}
                 </div>
             </form>
@@ -58,13 +64,11 @@
         $(function () {
             $('#modal-register').on('hide.bs.modal', function () {
                 $('#box-modal').html("");
-                bootoast({message: '取消!!!', type: 'info',
-                    timeout: 1.5, animationDuration: 700, dismissable: false});
             })
         });
 
-        $('#send-email').on('click', function () {
-            var recipients = $('#register-box #Email').val();
+        $('#send-register-email').on('click', function () {
+            var recipients = $('#Email').val();
             var url = "{{ url_for("tool.send_register_email") }}";
             $.ajax({
                 url: url,
@@ -87,5 +91,28 @@
                 }
             });
         });
+
+        $("#submit").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('home.register') }}",
+                data: $('#form-register').serialize(),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code == 1) {
+                        bootoast({
+                            message: res.msg, type: 'success',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
+                        $('#close').trigger("click");
+                    } else if (res.code == 0) {
+                        bootoast({
+                            message: res.msg, type: 'danger',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
+                    }
+                }
+            });
+        })
     })
 </script>
