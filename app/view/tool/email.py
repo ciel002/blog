@@ -8,7 +8,7 @@ from flask_mail import Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from app import mail
-from app.function.verifycode import yzm
+from app.function.verifycode import yzm, verify_email
 from app.view.tool import tool
 
 
@@ -35,23 +35,25 @@ def update_mail_config():
     mail.init_app(app)
 
 
-@tool.route('/send_register_email/', methods=['GET', 'POST'])
-def send_register_email():
+@tool.route('/send_sms_email/', methods=['GET', 'POST'])
+def send_sms_email():
     update_mail_config()
-    recipients = request.get_data().decode(encoding='utf-8')
-    if not recipients:
+    recipient = request.get_data().decode(encoding='utf-8')
+    if not recipient:
+        recipient = current_user.email
+    if not verify_email(recipient):
         return json.dumps({
             "code": -1,
-            "message": "请输入邮箱"
+            "message": "请输入正确的邮箱格式"
         })
     try:
         # 配置邮件模板
         from manager import app
         from app.function.config import get_config
         code = yzm(6)
-        session[recipients] = code
-        html = render_template('common/email_register.html', code=code)
-        msg = Message(subject='郝明宸的个人博客来信', sender=get_config("web_mail_smtp_user"), recipients=[recipients],
+        session['sms_code'] = code
+        html = render_template('common/email_sms.html', code=code)
+        msg = Message(subject='郝明宸的个人博客来信', sender=get_config("web_mail_smtp_user"), recipients=[recipient],
                       html=html)
         thread = Thread(target=send_async_email, args=[app, msg])
         thread.start()

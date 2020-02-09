@@ -1,4 +1,5 @@
 import random
+import re
 
 
 def yzm(n):
@@ -14,3 +15,7 @@ def yzm(n):
         ret = random.choice([num, zm])
         code += ret  # 把code和ret用空字符串拼接
     return code
+
+
+def verify_email(email):
+    return re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email)

@@ -69,14 +69,13 @@
 
         $('#send-register-email').on('click', function () {
             var recipients = $('#Email').val();
-            var url = "{{ url_for("tool.send_register_email") }}";
+            var url = "{{ url_for("tool.send_sms_email") }}";
             $.ajax({
                 url: url,
                 data: recipients,
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
-                    console.log(res);
                     if (res.code == "1") {
                         bootoast({
                             message: res.message, type: 'info',
@@ -113,6 +112,6 @@
                     }
                 }
             });
-        })
+        });
     })
 </script>

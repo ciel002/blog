@@ -16,7 +16,7 @@
                         </div>
                         <div class="u_info clearfix">
                             <div class="u_info_avatar text-center pull-left">
-                                {% if current_user.avatar %}
+                                {% if user.avatar %}
                                     <img src="{{ url_for('tool.load_edit_avatar', uid=user.id) }}"
                                          class="img-responsive" alt="头像">
                                 {% else %}
@@ -39,9 +39,9 @@
                                     <p>上次登录时间:{{ user.last_login_time }}</p>
                                 </div>
                                 <div class="u_info_post">
-                                    <p>文章数量:{{ user.post_total }}</p>
-                                    <p>评论数量:{{ user.comment_total }}</p>
-                                    <p>回复数量:200</p>
+                                    <p>文章数量:{{ user.post_count }}</p>
+                                    <p>评论数量:{{ user.comment_count }}</p>
+                                    <p>回复数量:{{ user.reply_count }}</p>
                                 </div>
                             </div>
                         </div>
@@ -52,36 +52,82 @@
                         </div>
                         <div class="u_bind clearfix">
                             <div class="u_bind_item col-sm-6">
-                                <div class="u_bind_icon bind_email_icon"></div>
-                                <div class="pull-left">
-                                    <p class="u_bind_title">邮箱绑定</p>
-                                    <p class="u_bind_subtitle">您可以使用邮箱来保障您的账号安全</p>
-                                </div>
-                                <button class="u_bind_button btn btn-default btn-circle">修改邮箱</button>
+                                {% if user.email %}
+                                    <div class="u_bind_icon binded_email_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">邮箱绑定
+                                            <small>({{ user.email }})</small>
+                                        </p>
+                                        <p class="u_bind_subtitle">您可以使用邮箱来保障您的账号安全</p>
+                                    </div>
+                                    <a href="{{ url_for('home.alter_email') }}" class="u_binded_button btn btn-default btn-circle">修改邮箱</a>
+                                {% else %}
+                                    <div class="u_bind_icon bind_email_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">邮箱绑定</p>
+                                        <p class="u_bind_subtitle">您可以使用邮箱来保障您的账号安全</p>
+                                    </div>
+                                    <a class="u_bind_button btn btn-default btn-circle">修改邮箱</a>
+                                {% endif %}
                             </div>
                             <div class="u_bind_item col-sm-6">
-                                <div class="u_bind_icon bind_phone_icon"></div>
-                                <div class="pull-left">
-                                    <p class="u_bind_title">手机绑定</p>
-                                    <p class="u_bind_subtitle">您可以享受手机相关的安全及提醒服务</p>
-                                </div>
-                                <button class="u_bind_button btn btn-default btn-circle">修改手机</button>
+                                {% if user.phone %}
+                                    <div class="u_bind_icon binded_phone_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">手机绑定
+                                            <small>({{ user.phone }})</small>
+                                        </p>
+                                        <p class="u_bind_subtitle">您可以享受手机相关的安全及提醒服务</p>
+                                    </div>
+                                    <a class="u_binded_button btn btn-default btn-circle">修改手机</a>
+                                {% else %}
+                                    <div class="u_bind_icon bind_phone_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">手机绑定</p>
+                                        <p class="u_bind_subtitle">您可以享受手机相关的安全及提醒服务</p>
+                                    </div>
+                                    <a class="u_bind_button btn btn-default btn-circle">修改手机</a>
+                                {% endif %}
+                            </div>
+
+                            <div class="u_bind_item col-sm-6">
+                                {% if user.qq %}
+                                    <div class="u_bind_icon binded_qq_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">QQ绑定
+                                            <small>({{ user.qq }})</small>
+                                        </p>
+                                        <p class="u_bind_subtitle">绑定QQ帐号，使用QQ帐号便捷登录</p>
+                                    </div>
+                                    <a class="u_binded_button btn btn-default btn-circle">修改QQ</a>
+                                {% else %}
+                                    <div class="u_bind_icon bind_qq_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">QQ绑定</p>
+                                        <p class="u_bind_subtitle">绑定QQ帐号，使用QQ帐号便捷登录</p>
+                                    </div>
+                                    <a class="u_bind_button btn btn-default btn-circle">修改QQ</a>
+                                {% endif %}
+
                             </div>
                             <div class="u_bind_item col-sm-6">
-                                <div class="u_bind_icon bind_qq_icon"></div>
-                                <div class="pull-left">
-                                    <p class="u_bind_title">QQ绑定</p>
-                                    <p class="u_bind_subtitle">绑定QQ帐号，使用QQ帐号便捷登录</p>
-                                </div>
-                                <button class="u_bind_button btn btn-default btn-circle">修改QQ</button>
-                            </div>
-                            <div class="u_bind_item col-sm-6">
-                                <div class="u_bind_icon bind_wechat_icon"></div>
-                                <div class="pull-left">
-                                    <p class="u_bind_title">微信绑定</p>
-                                    <p class="u_bind_subtitle">绑定微信帐号，使用微信帐号便捷登录</p>
-                                </div>
-                                <button class="u_bind_button btn btn-default btn-circle">修改微信</button>
+                                {% if user.wechat %}
+                                    <div class="u_bind_icon binded_wechat_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">微信绑定
+                                            <small>({{ user.wechat }})</small>
+                                        </p>
+                                        <p class="u_bind_subtitle">绑定微信帐号，使用微信帐号便捷登录</p>
+                                    </div>
+                                    <a class="u_binded_button btn btn-default btn-circle">修改微信</a>
+                                {% else %}
+                                    <div class="u_bind_icon bind_wechat_icon"></div>
+                                    <div class="pull-left">
+                                        <p class="u_bind_title">微信绑定</p>
+                                        <p class="u_bind_subtitle">绑定微信帐号，使用微信帐号便捷登录</p>
+                                    </div>
+                                    <a class="u_bind_button btn btn-default btn-circle">修改微信</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -91,12 +137,12 @@
                         </div>
                         <div class="u_bind clearfix">
                             <div class="u_bind_item col-sm-6">
-                                <div class="u_bind_icon bind_password_icon"></div>
+                                <div class="u_bind_icon binded_password_icon"></div>
                                 <div class="pull-left">
                                     <p class="u_bind_title">密码强度</p>
                                     <p class="u_bind_subtitle">目前您的密码强度中，请修改提升强度</p>
                                 </div>
-                                <button class="u_bind_button btn btn-default btn-circle">修改密码</button>
+                                <a href="{{ url_for('home.alter_password') }}" class="u_binded_button btn btn-default btn-circle">修改密码</a>
                             </div>
                             <div class="u_bind_item col-sm-6">
                                 <div class="u_bind_icon bind_delete_icon"></div>
@@ -104,7 +150,7 @@
                                     <p class="u_bind_title">注销账号</p>
                                     <p class="u_bind_subtitle">注销帐号相关信息，请谨慎操作</p>
                                 </div>
-                                <button class="u_bind_button btn btn-default btn-circle">注销</button>
+                                <a class="u_bind_button btn btn-default btn-circle">注销</a>
                             </div>
                         </div>
                     </div>

@@ -271,6 +271,26 @@ ul,li{
     margin-top: 2px;
     background: url("../../imgs/account_cancel_entry.png") no-repeat left center;
 }
+.u_bind_item .binded_email_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat 0 -65px;
+}
+.u_bind_item .binded_phone_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat 0  5px;
+}
+.u_bind_item .binded_qq_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat 0 -275px;
+}
+.u_bind_item .binded_wechat_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat 0 -355px;
+}
+.u_bind_item .binded_password_icon{
+    margin-top: 2px;
+    background: url("../../imgs/user_center_icons.png") no-repeat 0 -30px;
+}
 .u_bind_title{
     font-weight: 600;
 }
@@ -282,7 +302,23 @@ ul,li{
     margin-top: 6px;
     float: right;
 }
-
+.u_binded_button{
+    height: 35px;
+    margin-top: 6px;
+    float: right;
+    border: 1px deepskyblue solid;
+}
+.u_password, .u_email{
+    margin-top: 20px;
+    padding: 10px 50px;
+}
+.u_password button{
+    float: left;
+}
+.u_posts, .u_comments, u_replies{
+    font-size: 14px;
+    margin-top: 20px;
+}
 
 footer{
     background: #f2f2f2;

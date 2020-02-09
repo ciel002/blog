@@ -5,6 +5,7 @@ from sqlalchemy import func
 from app import db
 from app.common.constant import TABLE_PREFIX, PROPERTY_PRIVATE, STATUS_DRAFT, STATUS_DELETED, STATUS_PUBLISH
 from app.forms.admin import post
+from app.model.cat import Category
 from app.model.user import User
 
 
@@ -93,6 +94,18 @@ class Post(db.Model):
             , Post.post_property == Property.id).group_by(Post.id).all()
 
     @staticmethod
+    def get_posts_info_by_user(uid):
+        subquery_comment = db.session.query(func.count(PostComment.id)).filter(
+            PostComment.pid == Post.id).correlate(
+            Post).as_scalar()
+        subquery_reply = db.session.query(func.count(PostReply.id)).filter(
+            PostReply.cid == PostComment.id, PostComment.pid==Post.id).correlate(
+            PostComment, Post).as_scalar()
+        result = db.session.query(Post.id, Post.title, Category.name, Category.sub_name, Post.status, Post.create_time, subquery_comment.label('comment_count'),
+                                  subquery_reply.label('reply_count')).filter(Category.id==Post.category_id, Post.uid==uid).all()
+        return result
+
+    @staticmethod
     def get_latest_posts(limit):
         return db.session.query(Post.title).filter(Post.status == STATUS_PUBLISH).order_by(
             Post.create_time.desc()).limit(
@@ -176,4 +189,3 @@ class PostComment(db.Model):
     @staticmethod
     def get_comments_count():
         return db.session.query(func.count(PostComment.id)).scalar()
-

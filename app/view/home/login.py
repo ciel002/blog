@@ -50,6 +50,7 @@ def register():
                             email=form.Email.data)
             new_user.add_one()
             login_user(new_user)
+            session.pop(form.Email.data)
             return Response(json.dumps({'code': 1, 'msg': '注册成功'}), content_type='application/json')
 
 
