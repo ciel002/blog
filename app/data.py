@@ -39,24 +39,24 @@ def init_database():
     # 1 前台页面配置
     web_home_title = Config("首页窗口标题", "web_home_title", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
     web_home_logo_title = Config("首页LOGO标题", "web_home_logo_title", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
-    web_home_footer_name = Config("首页底部标题", "web_home_footer_name", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
+    web_home_footer_name = Config("首页底部标题", "web_home_footer_name", "郝明宸", "", 0, STATUS_USEFUL)
     web_home_footer_signature = Config("首页底部签名", "web_home_footer_signature", "博客底部签名", "", 0, STATUS_USEFUL)
-    web_home_posts_pages = Config("主页每页文章数", "web_home_posts_pages", "10", "", 0, STATUS_USEFUL)
+    web_home_posts_pages = Config("主页每页文章数", "web_home_posts_pages", "5", "", 0, STATUS_USEFUL)
     # 2 后台页面配置
     web_admin_title = Config("后台窗口标题", "web_admin_title", "后台管理", "", 0, STATUS_USEFUL)
     web_admin_logo_title = Config("后台LOGO标题", "web_admin_logo_title", "后台管理", "", 0, STATUS_USEFUL)
-    web_admin_post_per_page = Config("后台每页文章数", "web_admin_post_per_page", "后台管理", "", 0, STATUS_USEFUL)
-    web_admin_user_per_page = Config("后台每页用户数", "web_admin_user_per_page", "后台管理", "", 0, STATUS_USEFUL)
-    web_admin_comment_per_page = Config("后台每页评论数", "web_admin_comment_per_page", "后台管理", "", 0, STATUS_USEFUL)
-    web_admin_comment_reply_per_page = Config("后台每页评论回复数", "web_admin_comment_reply_per_page", "后台管理", "", 0,
+    web_admin_post_per_page = Config("后台每页文章数", "web_admin_post_per_page", "5", "", 0, STATUS_USEFUL)
+    web_admin_user_per_page = Config("后台每页用户数", "web_admin_user_per_page", "5", "", 0, STATUS_USEFUL)
+    web_admin_comment_per_page = Config("后台每页评论数", "web_admin_comment_per_page", "5", "", 0, STATUS_USEFUL)
+    web_admin_comment_reply_per_page = Config("后台每页评论回复数", "web_admin_comment_reply_per_page", "5", "", 0,
                                               STATUS_USEFUL)
     web_admin_site_copy = Config("后台版权信息", "web_admin_site_copy", "郝明宸", "", 0, STATUS_USEFUL)
     web_admin_site_version = Config("网站版本信息", "web_admin_site_version", "1.10", "", 0, STATUS_USEFUL)
     # 3 邮件配置
-    mail_smtp_host = Config("邮件SMTP地址", "web_mail_smtp_host", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
-    mail_smtp_port = Config("邮件SMTP端口", "web_mail_smtp_port", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
-    mail_smtp_user = Config("邮件SMTP账号", "web_mail_smtp_user", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
-    mail_smtp_pass = Config("邮件SMTP密码", "web_mail_smtp_pass", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
+    mail_smtp_host = Config("邮件SMTP地址", "web_mail_smtp_host", "smtp.163.com", "", 0, STATUS_USEFUL)
+    mail_smtp_port = Config("邮件SMTP端口", "web_mail_smtp_port", "465", "", 0, STATUS_USEFUL)
+    mail_smtp_user = Config("邮件SMTP账号", "web_mail_smtp_user", "ling1ciel@163.com", "", 0, STATUS_USEFUL)
+    mail_smtp_pass = Config("邮件SMTP密码", "web_mail_smtp_pass", "hyc121019", "", 0, STATUS_USEFUL)
     mail_smtp_verify = Config("邮件SMTP验证", "web_mail_smtp_verify", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
     mail_validation_template = Config("邮件SMTP验证模板", "web_mail_validation_template", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
     mail_validation_content = Config("邮件SMTP验证内容", "web_mail_validation_content", "郝明宸的个人博客", "", 0, STATUS_USEFUL)
@@ -65,9 +65,9 @@ def init_database():
                                                  "uploads/froala/image/", "", 0, STATUS_USEFUL)
     web_system_upload_video_froala_path = Config("froala编辑器视频上传路径", "web_system_upload_video_froala_path",
                                                  "uploads/froala/video/", "", 0, STATUS_USEFUL)
-    web_system_upload_img_path = Config("图片上传路径", "web_system_upload_img_path", "", "", 0, STATUS_USEFUL)
-    web_system_upload_avatar_path = Config("用户头像上传路径", "web_system_upload_avatar_path", "", "", 0, STATUS_USEFUL)
-    web_system_font_path = Config("字体文件路径", "web_system_font_path", "", "", 0, STATUS_USEFUL)
+    web_system_upload_img_path = Config("图片上传路径", "web_system_upload_img_path", "uploads/img/", "", 0, STATUS_USEFUL)
+    web_system_upload_avatar_path = Config("用户头像上传路径", "web_system_upload_avatar_path", "uploads/avatar/", "", 0, STATUS_USEFUL)
+    web_system_font_path = Config("字体文件路径", "web_system_font_path", "app/static/fonts/", "", 0, STATUS_USEFUL)
 
     # 权限设置
     auth_admin_index = GroupAuthority("后台仪表盘", "", deletable=DELETABLE_NO)
