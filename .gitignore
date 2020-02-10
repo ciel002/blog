@@ -1,4 +1,5 @@
 /venv
 /uploads
-/migrate
+/migrations
 /.idea
+/app/data.py

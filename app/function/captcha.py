@@ -3,7 +3,6 @@ import string
 
 from PIL import Image, ImageFont, ImageDraw
 
-
 class Captcha(object):
     # 生成的验证码的个数
     number = 6
@@ -57,9 +56,10 @@ class Captcha(object):
         采用随机字体
         :return:
         """
+        from app.function.config import get_config
         fonts = ["consola.ttf", "consolab.ttf"]
         font = random.choice(fonts)
-        return 'web/static/fonts/' + font
+        return get_config("web_system_font_path") + font
 
     @classmethod
     def gen_text(cls, number):
