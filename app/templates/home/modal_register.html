@@ -10,38 +10,38 @@
                 <div class="modal-body">
                     {{ registerForm.hidden_tag() }}
                     <div class="form-group">
-                        {{ registerForm.Email.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.Email.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.Email }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ registerForm.Name.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.Name.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.Name }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ registerForm.Password.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.Password.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.Password }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ registerForm.RePassword.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.RePassword.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.RePassword }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ registerForm.SmsCode.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.SmsCode.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.SmsCode }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ registerForm.VerifyCode.label(class="col-sm-2 control-label") }}
-                        <div class="col-sm-9">
+                        {{ registerForm.VerifyCode.label(class="col-sm-3 control-label") }}
+                        <div class="col-sm-8">
                             {{ registerForm.VerifyCode }}
                             <img class="verify_code" src="{{ url_for('tool.graph_captcha') }}"
                                  onclick="this.src='/tool/captcha?'+ Math.random()" style="margin-top: 10px">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="close" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button id="send-register-email" type="button" class="btn btn-default">发送邮件验证</button>
                     {{ registerForm.submit }}
                 </div>

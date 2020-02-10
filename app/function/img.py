@@ -33,27 +33,3 @@ def water_mark(filepath, mark=u'@ 郝明宸的个人博客'):
     # 将新生成的图片覆盖到需要加水印的图片上
     after = Image.alpha_composite(layer, text_overlay)
     after.save(filepath)
-
-
-def resize_avatar(img, path, uid, sizes):
-    sImg = Image.open(img)
-    sImg.convert('RGBA')
-
-    # 删除原数据库中该用户的头像
-    from app import db
-    avatars = UserAvatar.query.filter_by(uid=uid).all()
-    for i in avatars:
-        db.session.delete(i)
-    db.session.commit()
-
-    try:
-        for name, value in sizes.items():
-            # 生成缩放后的图片，并保存到本地和数据库中
-            dImg = sImg.resize((value, value), Image.ANTIALIAS)
-            filepath = os.path.join(path, name)
-            dImg.save(filepath)
-            avatar = UserAvatar(uid=uid, name=name, path=path)
-            avatar.add_one()
-        return True
-    except Exception as e:
-        return False

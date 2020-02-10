@@ -1,9 +1,9 @@
-from wtforms import StringField
+from wtforms import TextAreaField
 from wtforms.validators import DataRequired
 
 from app.forms.BaseForm import CustomForm
 
 
 class CommentForm(CustomForm):
-    content = StringField('GroupName', validators=[DataRequired(message='评论不能为空')], render_kw={"class": "form-control"})
+    content = TextAreaField('评论', validators=[DataRequired(message='评论不能为空')], render_kw={"class": "form-control"})
 

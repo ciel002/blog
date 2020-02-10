@@ -20,18 +20,12 @@
                 {{ form.Email }}
             </div>
         </div>
-        {% for error in form.Email.errors %}
-            <div class="form-group text-center text-danger">{{ error }}</div>
-        {% endfor %}
         <div class="form-group">
             {{ form.Password.label(class="col-sm-2 control-label") }}
             <div class="col-sm-10">
                 {{ form.Password }}
             </div>
         </div>
-        {% for error in form.Password.errors %}
-            <div class="form-group text-center text-danger">{{ error }}</div>
-        {% endfor %}
         <div class="form-group">
             {{ form.VerifyCode.label(class="col-sm-2 control-label") }}
             <div class="col-sm-9">
@@ -40,9 +34,6 @@
                      onclick="this.src='/tool/captcha?'+ Math.random()" style="margin-top: 10px">
             </div>
         </div>
-        {% for error in form.VerifyCode.errors %}
-                    <div class="form-group text-center text-danger">{{ error }}</div>
-                {% endfor %}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 {{ form.submit }}

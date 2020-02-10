@@ -17,13 +17,17 @@
                         <div class="u_info clearfix">
                             <div class="u_info_avatar text-center pull-left">
                                 {% if user.avatar %}
-                                    <img src="{{ url_for('tool.load_edit_avatar', uid=user.id) }}"
+                                    <img id="current_avatar" src="{{ url_for('tool.load_edit_avatar', uid=user.id) }}"
                                          class="img-responsive" alt="头像">
                                 {% else %}
-                                    <img src="{{ url_for('static', filename='imgs/default-logo.gif') }}"
+                                    <img id="current_avatar" src="{{ url_for('static', filename='imgs/default-logo.gif') }}"
                                          class="img-responsive" alt="头像">
                                 {% endif %}
-                                <button>修改头像</button>
+                                <form action="" method="post" id="avatar_form" style="margin-top: 20px">
+                                    <input id="avatar_upload" type="file" class="file" data-show-preview="false"
+                                           style="display: none"/>
+                                    <input type="button" class="btn btn-default" id="change_avatar" value="更换头像">
+                                </form>
                             </div>
                             <div class="u_info_detail">
                                 <div class="u_info_name">
@@ -60,7 +64,8 @@
                                         </p>
                                         <p class="u_bind_subtitle">您可以使用邮箱来保障您的账号安全</p>
                                     </div>
-                                    <a href="{{ url_for('home.alter_email') }}" class="u_binded_button btn btn-default btn-circle">修改邮箱</a>
+                                    <a href="{{ url_for('home.alter_email') }}"
+                                       class="u_binded_button btn btn-default btn-circle">修改邮箱</a>
                                 {% else %}
                                     <div class="u_bind_icon bind_email_icon"></div>
                                     <div class="pull-left">
@@ -142,7 +147,8 @@
                                     <p class="u_bind_title">密码强度</p>
                                     <p class="u_bind_subtitle">目前您的密码强度中，请修改提升强度</p>
                                 </div>
-                                <a href="{{ url_for('home.alter_password') }}" class="u_binded_button btn btn-default btn-circle">修改密码</a>
+                                <a href="{{ url_for('home.alter_password') }}"
+                                   class="u_binded_button btn btn-default btn-circle">修改密码</a>
                             </div>
                             <div class="u_bind_item col-sm-6">
                                 <div class="u_bind_icon bind_delete_icon"></div>
@@ -158,4 +164,40 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('#change_avatar').on("click", function () {
+            $("#avatar_upload").click();
+        });
+
+        $("#avatar_upload").change(function () {
+            var filePath = $(this).val();
+            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1) {
+                var f = document.getElementById('avatar_upload').files[0];
+                var form = new FormData();
+                form.append("avatar", f);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for("admin.alter_user_avatar", uid=user.id) }}",
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    data: form,
+                    success: function (res) {
+                        $("#current_avatar").attr("src", "{{ url_for('tool.load_edit_avatar', uid=user.id) }}" + "?" + Math.random());
+                        console.log(res);
+                    },
+                    error: function (res) {
+                        console.log("失败");
+                    }
+                });
+            } else {
+                alert("您未上传文件，或者您上传文件类型有误！");
+                return false
+            }
+        });
+    </script>
 {% endblock %}

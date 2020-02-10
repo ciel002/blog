@@ -1,0 +1,75 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">修改用户头像
+                        <small>上传头像单独完成</small>
+                    </h3>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <div class="box-body">
+                        <div class="col-sm-6">
+                            <h4>当前头像：</h4>
+                            <div class="text-center">
+                                {% if current_user.avatar %}
+                                    <img id="current_avatar" src="{{ url_for('tool.load_edit_avatar', uid=uid) }}"
+                                         class="img-circle img-responsive"
+                                         alt="User Image">
+                                {% else %}
+                                    <img id="current_avatar"
+                                         src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
+                                         class="img-circle img-responsive center" width="250px" height="250px">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <form action="" method="post" id="avatar_form">
+                                <input id="avatar_upload" type="file" class="file" data-show-preview="false"
+                                       style="display: none"/>
+                                <input type="button" class="btn btn-default btn-lg" id="change_avatar" value="更换头像">
+                            </form>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $('#change_avatar').on("click", function () {
+            $("#avatar_upload").click();
+        });
+
+        $("#avatar_upload").change(function () {
+            var filePath = $(this).val();
+            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1) {
+                var f = document.getElementById('avatar_upload').files[0];
+                var form = new FormData();
+                form.append("avatar", f);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for("admin.alter_user_avatar", uid=uid) }}",
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    data: form,
+                    success: function (res) {
+                        $("#current_avatar").attr("src", "{{ url_for('tool.load_edit_avatar', uid=uid) }}" + "?" + Math.random());
+                        console.log(res);
+                    },
+                    error: function (res) {
+                        console.log("失败");
+                    }
+                });
+            } else {
+                alert("您未上传文件，或者您上传文件类型有误！");
+                return false
+            }
+        });
+    </script>
+{% endblock %}

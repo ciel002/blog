@@ -11,7 +11,7 @@ from app.view.home import home
 def login():
     form = LoginForm()
     if request.method == "POST":
-        verify = session['verify_code'].lower() == form.VerifyCode.data.lower()
+        verify = session.get('verify_code').lower() == form.VerifyCode.data.lower()
         if not form.validate():
             return Response(json.dumps({'code': 0, 'msg': form.get_first_error()}), content_type='application/json')
         if verify:

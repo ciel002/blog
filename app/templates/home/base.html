@@ -13,6 +13,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
     <!-- My style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home/style.css') }}">
+    <!-- jQuery 3 -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootoast.js') }}"></script>
+    <!-- BigPicture 图片大图模式 -->
+    <script src="{{ url_for('static', filename='js/home/BigPicture.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home/index.js') }}"></script>
 
 </head>
 <body>
@@ -68,20 +82,6 @@
     </div>
 </footer>
 <div id="box-modal"></div>
-<!-- jQuery 3 -->
-<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button);
-</script>
-<!-- Bootstrap 3.3.7 -->
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootoast.js') }}"></script>
-<!-- BigPicture 图片大图模式 -->
-<script src="{{ url_for('static', filename='js/home/BigPicture.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/home/index.js') }}"></script>
 <script>
     $(function () {
         /*

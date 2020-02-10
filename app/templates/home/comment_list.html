@@ -11,26 +11,44 @@
                                      src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
                                      class="img-circle img-responsive"
                                      alt="User Image" style="height: 100px">
-                                <div>
-                                    {#                                        <p class="h3 text-center">{{ comment.name }}</p>#}
-                                </div>
                             {% else %}
                                 <img id="current_avatar"
                                      src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
                                      class="img-circle img-responsive center" width="250px" height="250px">
                             {% endif %}
                         </div>
-                        <div class="comment-user"><a href=""><h4>{{ comment.username }}</h4></a></div>
+                        <div class="comment-user"><a href=""><h4>{{ comment.name }}</h4></a></div>
                     </div>
-                    <div class="comment-main col-md-10 col-sm-9">
+                    <div class="comment-main col-md-10 col-sm-9 clearfix">
                         <div class="comment-body">
                             <div class="comment-meta"><span><i
                                     class="fa fa-clock-o"></i> {{ comment.create_time }}</span>
                             </div>
-                            <div class="comment-content">{{ comment.content }}</div>
+                            <div class="comment-content" data-id="{{ comment.id }}">{{ comment.content }}</div>
                         </div>
-                        <div class="comment-footer pull-right">
+                        <div class="comment-footer pull-right clearfix">
                             <button class="btn btn-sm btn-default">回复</button>
+                        </div>
+                        <div class="reply-list">
+                            <div class="reply-item clearfix">
+                                <p><b class="reply_a" data-id="1">!!!!</b>回复了<b class="reply_b" data-id="4">Ciel</b>:
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sunt.
+                                    <small>2020-02-09 19:12:50</small>
+                                </p>
+                            </div>
+                            <div class="reply-item clearfix">
+                                <p><b class="reply_a" data-id="2">!!!!</b>回复了<b class="reply_b" data-id="5">Ciel</b>:
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi dolores
+                                    harum id, illum iure iusto qui repellat sunt tempora.
+                                    <small>2020-02-09 19:12:50</small>
+                                </p>
+                            </div>
+                            <div class="reply-item clearfix">
+                                <p><b class="reply_a" data-id="3">!!!!</b>回复了<b class="reply_b" data-id="6">Ciel</b>:
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sunt.
+                                    <small>2020-02-09 19:12:50</small>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,15 +77,14 @@
                 </div>
                 <form id="form_comment" class="col-sm-8 col-md-9" action="" method="post">
                     <textarea class="form-control" name="comment" id="comment" placeholder="发表评论"></textarea>
-                    <div>
-                        <input id="button" type="button" class="btn btn-default" value="评论">
-                        <div class="pull-right">
+                    <div class="clearfix">
+                        <input type="button" class="btn btn-default pull-right" value="回复">
+                        <div class="pull-left">
                             <small>0</small>
                             /
                             <small>140</small>
                         </div>
                     </div>
-
                 </form>
             {% else %}
                 <h3 class="text-center"><p style="padding-top: 10px">请<a>登录</a>后再进行评论或回复</p></h3>

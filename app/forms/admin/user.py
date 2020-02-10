@@ -7,29 +7,28 @@ from app.model.group import UserGroup
 
 
 class UserForm(FlaskForm):
-    name = StringField('UserName', validators=[
+    name = StringField('昵称', validators=[
         DataRequired(message="请输入用户名"),
         Length(message="长度最小6，最大24", min=6, max=24)
     ], render_kw={'class': 'form-control', 'placeholder': 'UserName'})
-    password = PasswordField('Password', validators=[
+    password = PasswordField('密码', validators=[
         DataRequired(message="请输入密码"),
     ], render_kw={'class': 'form-control', 'placeholder': 'Password'})
-    group_id = SelectField('Group', validators=[
+    group_id = SelectField('用户组', validators=[
         DataRequired(message="请选择用户组")
     ], render_kw={'class': 'form-control'}, coerce=int)
-    ava = HiddenField('ava')
-    phone = StringField('Phone', validators=[
+    phone = StringField('手机', validators=[
         DataRequired(message="请输入手机号"),
         Length(message="长度最小11，最大24", min=11, max=15)
     ], render_kw={'class': 'form-control', 'placeholder': 'Phone'})
-    email = StringField('Email', validators=[
+    email = StringField('邮箱', validators=[
         DataRequired(message="请输入Email"),
         Email("请输入正确的Email格式")
     ], render_kw={'class': 'form-control', 'placeholder': 'Email'})
-    wechat = StringField('Wechat', validators=[
+    wechat = StringField('微信', validators=[
         DataRequired(message="请输入微信号")
     ], render_kw={'class': 'form-control', 'placeholder': 'Wechat'})
-    signature = StringField('Signature', validators=[
+    signature = StringField('个性签名', validators=[
         DataRequired(message="请输入个性签名"),
         Length(message="最大50个字符", min=0, max=50)
     ], render_kw={'class': 'form-control', 'placeholder': 'Signature'})

@@ -1,0 +1,66 @@
+{% for reply in replies %}
+    <div class="reply-item clearfix">
+        <p><b class="reply_a" data-id="1">!!!!</b>回复了<b class="reply_b" data-id="4">Ciel</b>:
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sunt.
+            <small>2020-02-09 19:12:50</small>
+        </p>
+    </div>
+{% endfor %}
+
+{% block javascript %}
+    <script>
+        $(function () {
+            $(document).off("click", '.reply_b').on("click", '.reply_b', function () {
+                $("#form_reply").remove();
+                var box = $(this).parent().parent();
+                box.append("<form id=\"form_reply\" action=\"\" method=\"post\">\n" +
+                    "    <textarea class=\"form-control\" name=\"reply\" id=\"reply\" placeholder=\"回复 Ciel:\"></textarea>\n" +
+                    "    <div class=\"clearfix\">\n" +
+                    "        <input type=\"button\" class=\"btn btn-default btn-sm pull-right\"\n" +
+                    "               value=\"回复\">\n" +
+                    "        <div class=\"pull-left\">\n" +
+                    "            <small name=\"change\">0</small>\n" +
+                    "            /\n" +
+                    "            <small>60</small>\n" +
+                    "        </div>\n" +
+                    "    </div>\n" +
+                    "</form>");
+
+            });
+
+            $(".reply-item").on('click', 'input[type="button"]', function () {
+                var content = $("#reply").val();
+                var data = {
+                    'uid_a': {{ current_user.id }},
+                    'uid_b': $(this).parent().parent().parent().find(".reply_b").data('id'),
+                    'uid_p': {{ post.uid }},
+                    'cid': $(this).parent().parent().parent().parent().parent().find(".comment-content").data('id'),
+                    'content': content,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('home.add_comment_reply') }}",
+                    dataType: "json",
+                    data: data,
+                    success: function (res) {
+                        if (res.code == 1)
+                            return 0;
+                        {#$(".comment-box").html(res.data);#}
+                    },
+                    error: function (res) {
+                        console.log(res)
+                    }
+                });
+            });
+
+            $('.reply-item').on('keyup', 'textarea[name="reply"]', function () {
+                var length = $(this).val().length;
+                console.log(length);
+                if (length >= 60) {
+                    $(this).val($(this).val().substr(0, 60));
+                }
+                $(this).next().children('div').find('small[name="change"]').html(length);
+            })
+        });
+    </script>
+{% endblock %}

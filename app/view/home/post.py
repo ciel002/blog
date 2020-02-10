@@ -10,7 +10,7 @@ from app.view.home import home
 
 @home.route('/post/<string:post_title>/')
 def post(post_title):
-    post = db.session.query(Post.id, Post.title, Post.create_time, User.name
+    post = db.session.query(Post.id, Post.title, Post.create_time, User.name, Post.uid
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
                             Post.content).filter(Post.uid == User.id
                                                  , Post.category_id == Category.id,
@@ -19,7 +19,7 @@ def post(post_title):
     return render_template('home/post.html', post=post, post_comment=post_comment)
 
 
-@home.route('/post/add_comment/<int:pid>', methods=['GET', 'POST'])
+@home.route('/post/add_comment/<int:pid>/', methods=['GET', 'POST'])
 def add_post_comment(pid):
     if request.method == 'POST':
         content = request.values.get("content")
@@ -37,3 +37,9 @@ def add_post_comment(pid):
             "code": 0,
             "msg": "出错",
         })
+
+
+@home.route('post/add_reply/')
+def add_comment_reply():
+    if request.method == 'POST':
+        reply = request.values.get("content")

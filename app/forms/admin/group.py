@@ -7,8 +7,8 @@ from app.model.setting import Status
 
 
 class GroupForm(FlaskForm):
-    name = StringField('GroupName', validators=[DataRequired(message='请输入用户组名')], render_kw={"class": "form-control"})
-    status = SelectField('Status', validators=[DataRequired(message='请选择状态')]
+    name = StringField('用户组名称', validators=[DataRequired(message='请输入用户组名')], render_kw={"class": "form-control"})
+    status = SelectField('状态', validators=[DataRequired(message='请选择状态')]
                          , render_kw={"class": "form-control"}, coerce=int)
     submit = SubmitField('提交', render_kw={'class': 'btn btn-primary'})
 

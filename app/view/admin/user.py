@@ -5,8 +5,9 @@ from flask_login import login_required
 from werkzeug.utils import secure_filename
 
 from app.forms.admin.user import UserForm
+from app.function.avatar import resize_avatar, alter_avatar
 from app.function.config import get_config
-from app.function.img import md5_file, resize_avatar
+from app.function.img import md5_file
 from app.function.navigation import get_navigation_info
 from app.function.paginate import get_admin_users_paginate
 from app.function.permissions import admin_required
@@ -50,50 +51,32 @@ def add_user():
         return redirect(url_for('admin.user'))
 
 
-@admin.route('/alter_user/<int:user_id>/', methods=['GET', 'POST'])
+@admin.route('/alter_user/<int:uid>/', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def alter_user(user_id):
+def alter_user(uid):
     navigation = get_navigation_info(title="修改用户", sub_title="已存在的用户", tag="alter_user")
     form = UserForm()
     if request.method == 'GET':
-        user = User.query.filter_by(id=user_id).first()
+        user = User.query.filter_by(id=uid).first()
         form.alter_user(name=user.name, group=user.group_id, phone=user.phone, email=user.email,
                         wechat=user.wechat, signature=user.signature)
-        return render_template('admin/edit_user.html', navigation=navigation, form=form, uid=user_id)
+        return render_template('admin/edit_user.html', navigation=navigation, form=form, uid=uid)
     if request.method == 'POST':
-        user = User.query.filter_by(id=user_id).first()
+        user = User.query.filter_by(id=uid).first()
         user.update_user(request.form)
         return redirect(url_for('admin.user'))
 
 
-@admin.route('/alter_avatar/<int:uid>', methods=['GET', 'POST'])
-def alter_avatar(uid):
+@admin.route('/alter_user_avatar/<int:uid>', methods=['GET', 'POST'])
+def alter_user_avatar(uid):
+    if request.method == 'GET':
+        navigation = get_navigation_info(title="修改头像", tag="alter_user")
+        return render_template('admin/edit_user_avatar.html', navigation=navigation, uid=uid)
     if request.method == 'POST':
         # 获取ajax传来的头像文件
         file = request.files.get("avatar")
-        # 获取安全的文件名，用于保存
-        name = secure_filename(file.filename)
-        ext = os.path.splitext(name)[-1]
-        import uuid
-        filename = uuid.uuid4().hex + ext
-        # 计算文件的MD5，防止重复保存
-        md5 = md5_file(file)
-        # 文件的保存路径
-        path = get_config("web_system_upload_imgs_path")
-        if not os.path.exists(path):
-            os.mkdir(path)
-        # 文件的保存路径
-        file.save(os.path.join(path, filename))
-        # 需要保存什么大小的头像
-        sizes = {
-            "s" + filename: 80,
-            "m" + filename: 160,
-            "b" + filename: 250
-        }
-        # 对头像进行裁剪和缩放
-        avatar_id = resize_avatar(os.path.join(path, filename), path, uid, sizes)
-        if avatar_id:
+        if alter_avatar(file, uid):
             # 删除之前在数据库中的头像
             return json.dumps({
                 "error": 1,

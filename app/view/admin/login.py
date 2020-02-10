@@ -11,8 +11,11 @@ from app.view.admin import admin
 def login():
     form = LoginForm()
     if request.method == 'POST':
-        print(session)
-        if form.validate_on_submit() and session['verify_code'].lower() == form.VerifyCode.data.lower():
+        print(form.Email)
+        print(form.Password)
+        print(form.VerifyCode)
+        print(session.get('verify_code').lower())
+        if form.validate_on_submit() and session.get('verify_code').lower() == form.VerifyCode.data.lower():
             user = User.query.filter_by(email=form.Email.data).first()
             if user is None:
                 flash('not exist')

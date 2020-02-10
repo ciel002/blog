@@ -10,28 +10,28 @@ from app.model.user import User
 
 
 class PostForm(FlaskForm):
-    title = StringField('PostTitle', validators=[DataRequired(message='请输入标题')]
+    title = StringField('文章标题', validators=[DataRequired(message='请输入标题')]
                         , render_kw={'class': 'form-control', 'placeholder': 'Title'})
-    abstract = TextAreaField('Abstract', validators=[DataRequired(message='请输入摘要')]
+    abstract = TextAreaField('文章摘要', validators=[DataRequired(message='请输入摘要')]
                              , render_kw={'class': 'form-control textarea-fixed', 'placeholder': 'Abstract'
             , 'style': 'height:200px;'})
-    content = TextAreaField('Content', validators=[DataRequired(message='请输入内容')]
+    content = TextAreaField('文章内容', validators=[DataRequired(message='请输入内容')]
                             , render_kw={'class': 'form-control textarea-fixed', 'placeholder': 'Content'
             , 'style': 'height:400px;'})
-    author = SelectField('Author', validators=[DataRequired(message='请选择作者')]
+    author = SelectField('作者', validators=[DataRequired(message='请选择作者')]
                          , render_kw={'class': 'form-control', 'placeholder': 'Author'})
-    category_id = SelectField('Category', validators=[DataRequired(message='请选择分类')]
+    category_id = SelectField('类别', validators=[DataRequired(message='请选择分类')]
                               , render_kw={"class": "form-control"}
                               , coerce=int)
-    rank = StringField('Rank', validators=[DataRequired(message='请输入文章排名')], render_kw={"class": "form-control"}
+    rank = StringField('排名', validators=[DataRequired(message='请输入文章排名')], render_kw={"class": "form-control"}
                        , default=0)
-    is_top = SelectField('Rank', validators=[DataRequired(message='请输入文章是否置顶')]
+    is_top = SelectField('是否置顶', validators=[DataRequired(message='请输入文章是否置顶')]
                          , choices=[(0, '不置顶'), (1, '置顶')], render_kw={"class": "form-control"}, coerce=int)
-    post_property = SelectField('Property', validators=[DataRequired(message='请选择属性')]
+    post_property = SelectField('属性', validators=[DataRequired(message='请选择属性')]
                                 , render_kw={"class": "form-control"}, coerce=int)
-    status = SelectField('Status', validators=[DataRequired(message='请选择状态')]
+    status = SelectField('状态', validators=[DataRequired(message='请选择状态')]
                          , render_kw={"class": "form-control"}, coerce=int)
-    submit = SubmitField('Submit', render_kw={'class': 'btn btn-primary'})
+    submit = SubmitField('提交', render_kw={'class': 'btn btn-primary'})
 
     def __init__(self):
         super(PostForm, self).__init__()
