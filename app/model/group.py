@@ -16,10 +16,11 @@ class UserGroup(db.Model):
     authority = db.Column(db.String(30))  # 用户组所拥有的权限
     deletable = db.Column(db.Integer, nullable=False)  # 是否可以删除
 
-    def __init__(self, name, status, deletable=DELETABLE_YES):
+    def __init__(self, name, status, authority="", deletable=DELETABLE_YES):
         super(UserGroup, self).__init__()
         self.name = name
         self.deletable = deletable
+        self.authority = authority
         self.status = status
         self.create_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
