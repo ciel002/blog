@@ -12,7 +12,7 @@ from app.view.admin import admin
 
 
 @admin.route('/post/', methods=['GET', 'POST'])
-@admin.route('/post/<int:page>/', methods=['GET', 'POST'])
+@admin.route('/post/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def post(page=1):
@@ -94,28 +94,30 @@ def alter_post(post_id, post_title):
 
 
 @admin.route('/draft_post/', methods=['GET', 'POST'])
+@admin.route('/draft_post/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def draft_post():
+def draft_post(page=1):
     """
     草稿箱页面
     :return:
     """
     navigation = get_navigation_info(title="草稿箱", sub_title="修改未发布的文章", tag="draft_post")
     if request.method == 'GET':
-        posts_total = Post.get_posts_total(STATUS_DRAFT)
-        posts = Post.get_posts_info(status=STATUS_DRAFT)
+        pagination = get_admin_posts_paginate(page, per_page=int(get_config("web_admin_post_per_page")), status=STATUS_DRAFT)
         if request.args.get('post_id') is not None:
             post = Post.query.filter_by(id=request.args.get('post_id')).first()
             post.delete()
-            return redirect(url_for('admin.draft_post'))
-        return render_template("admin/draft_post.html", navigation=navigation, posts=posts, posts_total=posts_total)
+            return redirect(url_for('admin.post'))
+        return render_template("admin/post.html", navigation=navigation, posts=pagination.items, pagination=pagination,
+                               posts_total=len(pagination.items))
 
 
-@admin.route('/dustbin_post', methods=['GET', 'POST'])
+@admin.route('/dustbin_post/', methods=['GET', 'POST'])
+@admin.route('/dustbin_post/list/<int:page>', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def dustbin_post():
+def dustbin_post(page=1):
     """
     垃圾箱页面
     在此页面删除的文章将会在数据库中真正的删除，无法找回
@@ -123,10 +125,10 @@ def dustbin_post():
     """
     navigation = get_navigation_info(title="垃圾箱", sub_title="被删除的文章", tag="dustbin_post")
     if request.method == 'GET':
-        posts_total = Post.get_posts_total(STATUS_DELETED)
-        posts = Post.get_posts_info(status=STATUS_DELETED)
+        pagination = get_admin_posts_paginate(page, per_page=int(get_config("web_admin_post_per_page")), status=STATUS_DELETED)
         if request.args.get('post_id') is not None:
             post = Post.query.filter_by(id=request.args.get('post_id')).first()
             post.real_delete()
-            return redirect(url_for('admin.dustbin_post'))
-        return render_template("admin/dustbin_post.html", navigation=navigation, posts=posts, posts_total=posts_total)
+            return redirect(url_for('admin.post'))
+        return render_template("admin/post.html", navigation=navigation, posts=pagination.items, pagination=pagination,
+                               posts_total=len(pagination.items))
