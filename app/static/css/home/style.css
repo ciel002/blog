@@ -152,7 +152,7 @@ ul,li{
 .comment-footer{
     margin-bottom: 10px;
 }
-.reply-list{
+.reply-list, .reply-box{
     margin: 40px 70px 15px 40px;
     border-top: 1px solid #eeeeee;
     box-shadow: #CCCCCC 5px 5px 5px 5px;

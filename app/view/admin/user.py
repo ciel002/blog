@@ -77,7 +77,6 @@ def alter_user_avatar(uid):
         # 获取ajax传来的头像文件
         file = request.files.get("avatar")
         if alter_avatar(file, uid):
-            # 删除之前在数据库中的头像
             return json.dumps({
                 "error": 1,
                 "msg": "成功",

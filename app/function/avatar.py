@@ -4,7 +4,6 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 
 from app.function.img import md5_file
-from app.model.user import UserAvatar
 
 
 def alter_avatar(file, uid):
@@ -38,6 +37,7 @@ def resize_avatar(img, path, uid, sizes):
 
     # 删除原数据库中该用户的头像
     from app import db
+    from app.model.user import UserAvatar, User
     avatars = UserAvatar.query.filter_by(uid=uid).all()
     for i in avatars:
         db.session.delete(i)
@@ -51,6 +51,9 @@ def resize_avatar(img, path, uid, sizes):
             dImg.save(filepath)
             avatar = UserAvatar(uid=uid, name=name, path=path)
             avatar.add_one()
+        user = User.query.filter_by(id=uid).first()
+        user.avatar = 1
+        db.session.commit()
         return True
     except Exception as e:
         return False

@@ -24,6 +24,8 @@ def add_post_comment():
     if request.method == 'POST':
         pid = request.args.get('pid')
         content = request.values.get("content")
+        if not content.strip():
+            return Response(json.dumps({'code': 0, 'msg': '评论内容不能为空'}), content_type='application/json')
         comment = PostComment(uid=current_user.id, pid=pid, content=content)
         comment.add_one()
         if comment.id:
@@ -37,11 +39,12 @@ def add_post_comment():
 def add_comment_reply():
     if request.method == 'POST':
         pid = request.args.get('pid')
-        print(pid)
         uid_a = request.values.get("uid_a")
         uid_b = request.values.get("uid_b")
         cid = request.values.get("cid")
         content = request.values.get("content")
+        if not content.strip():
+            return Response(json.dumps({'code': 0, 'msg': '回复内容不能为空'}), content_type='application/json')
         reply = PostReply(uid=uid_a, rid=uid_b, cid=cid, content=content)
         reply.add_one()
         if reply.id:

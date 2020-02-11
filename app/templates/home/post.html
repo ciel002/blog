@@ -7,7 +7,7 @@
                 <h1 class="post-title" data-id="{{ post.id }}">{{ post.title }}</h1>
                 <ul class="list-inline">
                     <li><i class="fa fa-clock-o"></i> {{ post.create_time }}</li>
-                    <li><i class="fa fa-user"></i> {{ post.name }}</li>
+                    <li><i class="fa fa-user" data-id="{{ post.uid }}"></i> {{ post.name }}</li>
                     <li><i class="fa fa-tag"></i> <a
                             href="{{ url_for('home.category', category_sub_name=post.category_sub_name) }}">{{ post.category_name }}</a>
                     </li>

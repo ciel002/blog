@@ -13,8 +13,8 @@
                                      alt="User Image" style="height: 100px">
                             {% else %}
                                 <img id="current_avatar"
-                                     src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
-                                     class="img-circle img-responsive center" width="250px" height="250px">
+                                     src="{{ url_for('static', filename='imgs/default-logo.gif') }}" alt=""
+                                     class="img-circle img-responsive center" width="160px" height="160px">
                             {% endif %}
                         </div>
                         <div class="comment-user"><a href=""><h4>{{ comment.name }}</h4></a></div>
@@ -48,15 +48,15 @@
                 <div class="col-sm-4 col-md-3 text-center">
                     {% if current_user.avatar %}
                         <img id="current_avatar" src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
-                             class="img-circle img-responsive"
+                             class="img-responsive"
                              alt="User Image" style="height: 200px">
                         <div>
                             <p class="h3">{{ current_user.name }}</p>
                         </div>
                     {% else %}
                         <img id="current_avatar"
-                             src="{{ url_for('static', filename='imgs/personal-image.jpg') }}" alt=""
-                             class="img-circle img-responsive center" width="250px" height="250px">
+                             src="{{ url_for('static', filename='imgs/default-logo.gif') }}" alt=""
+                             class="img-responsive center" width="250px" height="250px">
                     {% endif %}
                 </div>
                 <form id="form_comment" class="col-sm-8 col-md-9" action="" method="post">
@@ -81,7 +81,6 @@
 {% block javascript %}
     <script>
         $(document).off("click", "#form_comment input[type='button']").on("click", "#form_comment input[type='button']", function () {
-            alert("!!!");
             var content = $("#comment").val();
             var data = {
                 'content': content
@@ -92,13 +91,99 @@
                 dataType: "json",
                 data: data,
                 success: function (res) {
-                    if (res.code == 1)
+                    if (res.code == 1) {
+                        bootoast({
+                            message: res.msg, type: 'success',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
                         $(".comment-box").html(res.data);
+                    }
                 },
                 error: function (res) {
-                    console.log(res)
+                    bootoast({
+                        message: res.msg, type: 'danger',
+                        position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                    });
                 }
             });
+        });
+
+        $(document).off("click", ".comment-footer button").on("click", ".comment-footer button", function () {
+            var is_login = "{{ current_user.is_authenticated }}";
+            var length = $(this).parent().parent().find('.reply-list').length;
+            if (is_login == "True" && !length) {
+                $(".reply-box").remove();
+                var div = "<div class=\"reply-box\">\n" +
+                    "    <div class=\"reply-item clearfix\">\n" +
+                    "        <form id=\"form_reply\" action=\"\" method=\"post\">\n" +
+                    "            <textarea class=\"form-control\" name=\"reply\" id=\"reply\" placeholder=\"回复 Ciel:\"></textarea>\n" +
+                    "            <div class=\"clearfix\">\n" +
+                    "                <input name=\"reply-button\" type=\"button\" class=\"btn btn-default btn-sm pull-right\"\n" +
+                    "                       value=\"回复\">\n" +
+                    "                <div class=\"pull-left\">\n" +
+                    "                    <small name=\"change\">0</small>\n" +
+                    "                    /\n" +
+                    "                    <small>60</small>\n" +
+                    "                </div>\n" +
+                    "            </div>\n" +
+                    "        </form>\n" +
+                    "    </div>\n" +
+                    "</div>";
+                $(this).parent().parent().append(div);
+            } else if (is_login == "True" && length) {
+                $("#form_reply").remove();
+                var box = $(this).parent().parent().find('.reply-list').find('.reply-item').last();
+                box.append("<form id=\"form_reply\" action=\"\" method=\"post\">\n" +
+                    "    <textarea class=\"form-control\" name=\"reply\" id=\"reply\" placeholder=\"回复 Ciel:\"></textarea>\n" +
+                    "    <div class=\"clearfix\">\n" +
+                    "        <input name=\"reply-button\" type=\"button\" class=\"btn btn-default btn-sm pull-right\"\n" +
+                    "               value=\"回复\">\n" +
+                    "        <div class=\"pull-left\">\n" +
+                    "            <small name=\"change\">0</small>\n" +
+                    "            /\n" +
+                    "            <small>60</small>\n" +
+                    "        </div>\n" +
+                    "    </div>\n" +
+                    "</form>");
+            } else {
+                bootoast({
+                    message: "请登录后再回复", type: 'info',
+                    position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                });
+            }
+
+            $(document).off("click", ".comment-main input[name='reply-button']").on("click", ".comment-main input[name='reply-button']", function () {
+                console.log($("#reply").val());
+                var content = $("#reply").val();
+                var data = {
+                    'uid_a': {{ current_user.id or 0 }},
+                    'uid_b': $(".fa-user").data('id'),
+                    'cid': $(this).parent().parent().parent().parent().parent().find(".comment-content").data('id'),
+                    'content': content,
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('home.add_comment_reply') }}" + "?pid=" + $(".post-title").data('id'),
+                    dataType: "json",
+                    data: data,
+                    success: function (res) {
+                        if (res.code == 1) {
+                            bootoast({
+                                message: res.msg, type: 'success',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                            });
+                            $(".comment-box").html(res.data);
+                        }
+                    },
+                    error: function (res) {
+                        bootoast({
+                            message: res.msg, type: 'danger',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
+                    }
+                });
+            });
+
         });
 
 

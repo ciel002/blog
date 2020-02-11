@@ -160,8 +160,7 @@ class PostReply(db.Model):
                                             PostReply.cid,
                                             PostReply.rid, a.name.label('uname'), b.name.label('rname')).filter(
             a.id == PostReply.uid, b.id == PostReply.rid,
-            PostReply.cid == PostComment.id, PostReply.cid==cid).order_by(
-            PostReply.create_time.desc()).all()
+            PostReply.cid == PostComment.id, PostReply.cid==cid).all()
         return replies
 
 

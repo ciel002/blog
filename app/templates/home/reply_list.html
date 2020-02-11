@@ -11,7 +11,7 @@
 {% block javascript %}
     <script>
         $(function () {
-            $(document).off("click", '.reply_b').on("click", '.reply_b', function () {
+            $(document).off("click", '.comment-main .reply_b').on("click", '.comment-main .reply_b', function () {
                 var is_login = "{{ current_user.is_authenticated }}";
                 if (is_login == "True") {
                     $("#form_reply").remove();
@@ -19,7 +19,7 @@
                     box.append("<form id=\"form_reply\" action=\"\" method=\"post\">\n" +
                         "    <textarea class=\"form-control\" name=\"reply\" id=\"reply\" placeholder=\"回复 Ciel:\"></textarea>\n" +
                         "    <div class=\"clearfix\">\n" +
-                        "        <input type=\"button\" class=\"btn btn-default btn-sm pull-right\"\n" +
+                        "        <input name=\"reply-item-button\" type=\"button\" class=\"btn btn-default btn-sm pull-right\"\n" +
                         "               value=\"回复\">\n" +
                         "        <div class=\"pull-left\">\n" +
                         "            <small name=\"change\">0</small>\n" +
@@ -31,7 +31,7 @@
                 }
             });
 
-            $(".reply-item").on('click', 'input[type="button"]', function () {
+            $(document).off("click", '.comment-main input[name="reply-item-button"]').on("click", '.comment-main input[name="reply-item-button"]', function () {
                 var content = $("#reply").val();
                 var data = {
                     'uid_a': {{ current_user.id or 0 }},
@@ -45,11 +45,24 @@
                     dataType: "json",
                     data: data,
                     success: function (res) {
-                        if (res.code == 1)
+                        if (res.code == 1) {
+                            bootoast({
+                                message: res.msg, type: 'success',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                            });
                             $(".comment-box").html(res.data);
+                        } else if (res.code == 0) {
+                            bootoast({
+                                message: res.msg, type: 'danger',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                            });
+                        }
                     },
                     error: function (res) {
-                        console.log(res)
+                        bootoast({
+                            message: res.msg, type: 'danger',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
                     }
                 });
             });
