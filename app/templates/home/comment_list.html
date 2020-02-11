@@ -1,14 +1,14 @@
 <div class="container">
     <div class="comment-list">
-        {% if post_comment %}
+        {% if comments_replies %}
             <h3>评论</h3>
-            {% for comment in post_comment %}
+            {% for comment in comments_replies %}
                 <div class="comment row">
                     <div class="comment-header text-center col-md-2 col-sm-3">
                         <div class="comment-img">
                             {% if comment.avatar %}
                                 <img id="current_avatar"
-                                     src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                                     src="{{ url_for('tool.load_edit_avatar', uid=comment.uid) }}"
                                      class="img-circle img-responsive"
                                      alt="User Image" style="height: 100px">
                             {% else %}
@@ -29,27 +29,11 @@
                         <div class="comment-footer pull-right clearfix">
                             <button class="btn btn-sm btn-default">回复</button>
                         </div>
-                        <div class="reply-list">
-                            <div class="reply-item clearfix">
-                                <p><b class="reply_a" data-id="1">!!!!</b>回复了<b class="reply_b" data-id="4">Ciel</b>:
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sunt.
-                                    <small>2020-02-09 19:12:50</small>
-                                </p>
+                        {% if comment.replies %}
+                            <div class="reply-list">
+                                {% include 'home/reply_list.html' %}
                             </div>
-                            <div class="reply-item clearfix">
-                                <p><b class="reply_a" data-id="2">!!!!</b>回复了<b class="reply_b" data-id="5">Ciel</b>:
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi dolores
-                                    harum id, illum iure iusto qui repellat sunt tempora.
-                                    <small>2020-02-09 19:12:50</small>
-                                </p>
-                            </div>
-                            <div class="reply-item clearfix">
-                                <p><b class="reply_a" data-id="3">!!!!</b>回复了<b class="reply_b" data-id="6">Ciel</b>:
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, sunt.
-                                    <small>2020-02-09 19:12:50</small>
-                                </p>
-                            </div>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -80,7 +64,7 @@
                     <div class="clearfix">
                         <input type="button" class="btn btn-default pull-right" value="回复">
                         <div class="pull-left">
-                            <small>0</small>
+                            <small name="change">0</small>
                             /
                             <small>140</small>
                         </div>
@@ -93,3 +77,39 @@
         </div>
     </div>
 </div>
+
+{% block javascript %}
+    <script>
+        $(document).off("click", "#form_comment input[type='button']").on("click", "#form_comment input[type='button']", function () {
+            alert("!!!");
+            var content = $("#comment").val();
+            var data = {
+                'content': content
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for("home.add_post_comment") }}" + "?pid=" + $(".post-title").data("id"),
+                dataType: "json",
+                data: data,
+                success: function (res) {
+                    if (res.code == 1)
+                        $(".comment-box").html(res.data);
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            });
+        });
+
+
+        $('#comment').on('keyup', function () {
+            var length = $(this).val().length;
+            console.log($(this).next());
+            if (length >= 140) {
+                $(this).val($(this).val().substr(0, 140));
+            }
+            $(this).next().children('div').find('small[name="change"]').html(length);
+        });
+
+    </script>
+{% endblock %}

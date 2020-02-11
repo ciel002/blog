@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>{{ post.title }}</h1>
+                <h1 class="post-title" data-id="{{ post.id }}">{{ post.title }}</h1>
                 <ul class="list-inline">
                     <li><i class="fa fa-clock-o"></i> {{ post.create_time }}</li>
                     <li><i class="fa fa-user"></i> {{ post.name }}</li>
@@ -28,7 +28,6 @@
     </div>
 </div>
 
-
 <div class="comment-box">
     {% include 'home/comment_list.html' %}
 </div>
@@ -43,30 +42,5 @@
                 imgSrc: e.target.src.replace('_thumb', '')
             });
         });
-    </script>
-    <script>
-        $(document).off("click", "#form_comment button").on("click", "#form_comment button", function () {
-            var content = $("#comment").val();
-            var data = {
-                'content': content
-            };
-            $.ajax({
-                type: "POST",
-                url: "{{ url_for("home.add_post_comment", pid=post.id) }}",
-                dataType: "json",
-                data: data,
-                success: function (res) {
-                    if (res.code == 1)
-                        $(".comment-box").html(res.data);
-                },
-                error: function (res) {
-                    console.log(res)
-                }
-            });
-        });
-
-        $("#comment").on("change", function () {
-            console.log($("#comment").val().length);
-        })
     </script>
 {% endblock %}
