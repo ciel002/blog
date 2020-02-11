@@ -35,7 +35,7 @@ def my_context_processor():
 
 manager = Manager(app)
 
-manager.add_command("runserver", Server(host='127.0.0.1', port=8091, use_debugger=True, use_reloader=True))
+manager.add_command("runserver", Server(host='0.0.0.0', port=8091, use_debugger=True, use_reloader=True))
 manager.add_command("db", MigrateCommand)
 
 
