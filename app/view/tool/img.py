@@ -1,7 +1,7 @@
 import os
 
 from flask import request, make_response
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from app import db
 from app.model.user import UserAvatar
@@ -23,6 +23,7 @@ def load_avatar():
 
 
 @tool.route('/load_edit_avatar/<int:uid>', methods=['GET', 'POST'])
+@login_required
 def load_edit_avatar(uid):
     if request.method == "GET":
         avatar = db.session.query(UserAvatar.name, UserAvatar.path).filter(UserAvatar.uid == uid,

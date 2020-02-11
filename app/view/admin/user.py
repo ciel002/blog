@@ -45,7 +45,7 @@ def add_user():
     if request.method == 'GET':
         return render_template('admin/edit_user.html', navigation=navigation, form=form)
     if request.method == 'POST':
-        user = User(name=form.username.data, password=form.password.data, group_id=form.group.data,
+        user = User(name=form.name.data, password=form.password.data, group_id=form.group_id.data,
                     email=form.email.data, wechat=form.wechat.data, signature=form.signature.data)
         user.add_one()
         return redirect(url_for('admin.user'))

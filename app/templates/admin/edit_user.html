@@ -55,39 +55,3 @@
         </div>
     </div>
 {% endblock %}
-
-{% block javascript %}
-    <script>
-        $('#change_avatar').on("click", function () {
-            $("#avatar_upload").click();
-        });
-
-        $("#avatar_upload").change(function () {
-            var filePath = $(this).val();
-            if (filePath.indexOf("jpg") != -1 || filePath.indexOf("png") != -1) {
-                var f = document.getElementById('avatar_upload').files[0];
-                var form = new FormData();
-                form.append("avatar", f);
-                $.ajax({
-                    type: "POST",
-                    url: "{{ url_for("admin.alter_avatar", uid=uid) }}",
-                    dataType: "json",
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    data: form,
-                    success: function (res) {
-                        $("#current_avatar").attr("src", "{{ url_for('tool.load_edit_avatar', uid=uid) }}" +"?"+ Math.random());
-                        console.log(res);
-                    },
-                    error: function (res) {
-                        console.log("失败");
-                    }
-                });
-            } else {
-                alert("您未上传文件，或者您上传文件类型有误！");
-                return false
-            }
-        });
-    </script>
-{% endblock %}

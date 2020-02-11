@@ -1,5 +1,5 @@
 from flask import render_template, request, json, Response
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from app import db
 from app.model.cat import Category
@@ -20,6 +20,7 @@ def post(post_title):
 
 
 @home.route('/post/add_comment/', methods=['GET', 'POST'])
+@login_required
 def add_post_comment():
     if request.method == 'POST':
         pid = request.args.get('pid')
@@ -36,6 +37,7 @@ def add_post_comment():
 
 
 @home.route('post/add_reply/', methods=['GET', 'POST'])
+@login_required
 def add_comment_reply():
     if request.method == 'POST':
         pid = request.args.get('pid')
