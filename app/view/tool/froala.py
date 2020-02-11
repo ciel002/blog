@@ -33,7 +33,7 @@ def upload_image_froala():
                     os.makedirs(filepath)
                 path = os.path.join(filepath, filename)
                 file.save(path)
-                water_mark(path)
+                # water_mark(path)
                 picture = Picture(name=name, filename=filename, album_id=DEFAULT_ALBUM, md5=md5, description='froala编辑器图片上传')
                 picture.add_one()
             link_path = url_for('tool.load_image_froala', filename=picture.filename)

@@ -15,11 +15,9 @@ def md5_file(file):
 
 
 def water_mark(filepath, mark=u'@ 郝明宸的个人博客'):
-    from app.config import BASE_DIR
     image = Image.open(filepath)
     from app.function.config import get_config
     ttf_path = os.path.join(get_config("web_system_font_path"), 'alibaba.ttf')
-    print(ttf_path)
     font = ImageFont.truetype(ttf_path, size=18)
     layer = image.convert('RGBA')  # 将图像转为RGBA图像
     # 生成同等大小的图片
