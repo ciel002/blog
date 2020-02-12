@@ -5,7 +5,7 @@ from app.common.constant import STATUS_DELETED, STATUS_PUBLISH
 from app.function.config import get_config
 from app.function.navigation import get_navigation_info
 from app.function.paginate import get_admin_comments_paginate, get_admin_post_replies_paginate
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
 from app.model.post import PostComment, PostReply
 from app.view.admin import admin
 
@@ -13,7 +13,7 @@ from app.view.admin import admin
 @admin.route('/comment/', methods=['GET', 'POST'])
 @admin.route('/comment/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_comment")
 def comment(page=1):
     navigation = get_navigation_info(title="评论列表", tag="comment")
     pagination = get_admin_comments_paginate(page, per_page=int(get_config("web_admin_comment_per_page")),
@@ -31,7 +31,7 @@ def comment(page=1):
 @admin.route('/dustbin_comment/', methods=['GET', 'POST'])
 @admin.route('/dustbin_comment/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_delete_comment")
 def dustbin_comment(page=1):
     navigation = get_navigation_info(title="辣鸡评论列表", tag="dustbin_comment")
     pagination = get_admin_comments_paginate(page, per_page=int(get_config("web_admin_comment_per_page")),
@@ -54,7 +54,7 @@ def dustbin_comment(page=1):
 @admin.route('/post_reply/', methods=['GET', 'POST'])
 @admin.route('/post_reply/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_comment_reply")
 def post_reply(page=1):
     navigation = get_navigation_info(title="文章回复列表", tag="post_reply")
     pagination = get_admin_post_replies_paginate(page, per_page=int(get_config("web_admin_comment_reply_per_page")),
@@ -72,7 +72,7 @@ def post_reply(page=1):
 @admin.route('/dustbin_post_reply/', methods=['GET', 'POST'])
 @admin.route('/dustbin_post_reply/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_delete_comment_reply")
 def dustbin_post_reply(page=1):
     navigation = get_navigation_info(title="文章回复列表垃圾箱", tag="dustbin_post_reply")
     pagination = get_admin_post_replies_paginate(page, per_page=int(get_config("web_admin_comment_reply_per_page")),

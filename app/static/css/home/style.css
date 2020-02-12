@@ -43,6 +43,9 @@ ul,li{
 .post-title a{
     color: #253858;
 }
+.post-title a b{
+    color: #ad0000;
+}
 .post-option{
     color: #9fa19f;
     margin: 20px 0;

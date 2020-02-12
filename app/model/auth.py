@@ -1,22 +1,25 @@
 import time
 
 from app import db
-from app.common.constant import DELETABLE_YES, TABLE_PREFIX
+from app.common.constant import DELETABLE_YES, TABLE_PREFIX, STATUS_USEFUL
 
 
 class GroupAuthority(db.Model):
     __tablename__ = TABLE_PREFIX + 'groups_authorities'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # 权限ID
     name = db.Column(db.String(30))  # 权限名
+    sub_name = db.Column(db.String(50))  # 供查询权限使用
     deletable = db.Column(db.Integer, nullable=False)  # 是否能够被删除
     status = db.Column(db.Integer)  # 权限当前状态
     create_time = db.Column(db.DateTime)  # 权限创建时间
     update_time = db.Column(db.DateTime)  # 权限更新时间
     description = db.Column(db.String(100))  # 权限描述
 
-    def __init__(self, name, description, deletable=DELETABLE_YES):
+    def __init__(self, name, sub_name, description, deletable=DELETABLE_YES):
         super(GroupAuthority, self).__init__()
         self.name = name
+        self.sub_name = sub_name
+        self.status = STATUS_USEFUL
         self.deletable = deletable
         self.description = description
         self.create_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
@@ -46,3 +49,11 @@ class GroupAuthority(db.Model):
     @staticmethod
     def get_all_auths(status):
         return GroupAuthority.query.filter_by(status=status).all()
+
+    @staticmethod
+    def result_to_str(result):
+        auths = ""
+        for item in result:
+            if item.type is "RadioField" and item.data:
+                auths += str(item.data) + ","
+        return auths[0:-1]

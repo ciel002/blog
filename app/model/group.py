@@ -13,7 +13,7 @@ class UserGroup(db.Model):
     create_time = db.Column(db.DateTime)  # 用户组创建时间
     update_time = db.Column(db.DateTime)  # 用户组更新时间
     status = db.Column(db.Integer)  # 用户组当前状态
-    authority = db.Column(db.String(30))  # 用户组所拥有的权限
+    authority = db.Column(db.String(100))  # 用户组所拥有的权限
     deletable = db.Column(db.Integer, nullable=False)  # 是否可以删除
 
     def __init__(self, name, status, authority="", deletable=DELETABLE_YES):

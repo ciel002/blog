@@ -74,6 +74,20 @@ div[data-role="editor-toolbar"] {
   cursor: pointer;
 }
 
+/*
+wtf渲染下的radio水平排列
+*/
+.wtf-radio-box li{
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
 
 
 /*

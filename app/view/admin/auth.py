@@ -3,15 +3,14 @@ from flask_login import login_required
 
 from app.common.constant import STATUS_USEFUL, STATUS_USELESS
 from app.function.navigation import get_navigation_info
-from app.function.permissions import admin_required
 from app.model.auth import GroupAuthority
-
 from app.view.admin import admin
+from app.function.permissions import permission_required
 
 
 @admin.route('/auth/')
 @login_required
-@admin_required
+@permission_required("auth_admin_auth")
 def auth():
     navigation = get_navigation_info(title="权限列表", tag="auth")
     auths = GroupAuthority.get_all_auths(status=STATUS_USEFUL)
@@ -26,21 +25,21 @@ def auth():
 
 @admin.route('/add_auth/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_add_auth")
 def add_auth():
-    pass
+    return
 
 
 @admin.route('/alter_auth/<int:auth_id>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_edit_auth")
 def alter_auth(auth_id):
     pass
 
 
 @admin.route('/dustbin_auth/')
 @login_required
-@admin_required
+@permission_required("auth_admin_delete_auth")
 def dustbin_auth():
     navigation = get_navigation_info(title="弃用权限列表", tag="dustbin_auth")
     auths = GroupAuthority.get_all_auths(status=STATUS_USELESS)

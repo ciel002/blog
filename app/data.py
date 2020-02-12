@@ -19,11 +19,13 @@ def init_database():
     useless = Status("未使用", DELETABLE_NO, "")
 
     # 初始用户组，方便权限管理
-    supergroup = UserGroup("超级管理员", STATUS_USEFUL, "1,2,3,4,5", DELETABLE_NO)
+    supergroup = UserGroup("超级管理员", STATUS_USEFUL,
+                           "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32",
+                           DELETABLE_NO)
     manager = UserGroup("普通管理员", STATUS_USEFUL, "1,2,3,4,5", DELETABLE_NO)
-    viper = UserGroup("普通会员", STATUS_USEFUL, "1,2,3,4,5", DELETABLE_NO)
-    user = UserGroup("用户", STATUS_USEFUL, "1,2,3,4,5", DELETABLE_NO)
-    visitor = UserGroup("游客", STATUS_USEFUL, "1,2,3,4,5", DELETABLE_NO)
+    viper = UserGroup("普通会员", STATUS_USEFUL, "", DELETABLE_NO)
+    user = UserGroup("用户", STATUS_USEFUL, "", DELETABLE_NO)
+    visitor = UserGroup("游客", STATUS_USEFUL, "", DELETABLE_NO)
 
     # 初始超级用户
     superuser = User("Ciel", "lingciel2002", GROUP_SUPERUSER, "18633568630", "1102839480@qq.com", "", "",
@@ -66,34 +68,44 @@ def init_database():
     web_system_upload_video_froala_path = Config("froala编辑器视频上传路径", "web_system_upload_video_froala_path",
                                                  "uploads/froala/video/", "", 0, STATUS_USEFUL)
     web_system_upload_img_path = Config("图片上传路径", "web_system_upload_img_path", "uploads/img/", "", 0, STATUS_USEFUL)
-    web_system_upload_avatar_path = Config("用户头像上传路径", "web_system_upload_avatar_path", "uploads/avatar/", "", 0, STATUS_USEFUL)
+    web_system_upload_avatar_path = Config("用户头像上传路径", "web_system_upload_avatar_path", "uploads/avatar/", "", 0,
+                                           STATUS_USEFUL)
     web_system_font_path = Config("字体文件路径", "web_system_font_path", "app/static/fonts/", "", 0, STATUS_USEFUL)
 
     # 权限设置
-    auth_admin_index = GroupAuthority("后台仪表盘", "", deletable=DELETABLE_NO)
-    auth_admin_post = GroupAuthority("后台文章列表", "", deletable=DELETABLE_NO)
-    auth_admin_add_post = GroupAuthority("后台写文章", "", deletable=DELETABLE_NO)
-    auth_admin_edit_post = GroupAuthority("后台修改文章", "", deletable=DELETABLE_NO)
-    auth_admin_draft_post = GroupAuthority("后台草稿列表", "", deletable=DELETABLE_NO)
-    auth_admin_delete_post = GroupAuthority("后台删除文章", "", deletable=DELETABLE_NO)
-    auth_admin_category = GroupAuthority("后台类别列表", "", deletable=DELETABLE_NO)
-    auth_admin_add_category = GroupAuthority("后台增加类别", "", deletable=DELETABLE_NO)
-    auth_admin_edit_category = GroupAuthority("后台修改类别", "", deletable=DELETABLE_NO)
-    auth_admin_delete_category = GroupAuthority("后台删除类别", "", deletable=DELETABLE_NO)
-    auth_admin_user = GroupAuthority("后台用户列表", "", deletable=DELETABLE_NO)
-    auth_admin_add_user = GroupAuthority("后台新增用户", "", deletable=DELETABLE_NO)
-    auth_admin_edit_user = GroupAuthority("后台修改用户", "", deletable=DELETABLE_NO)
-    auth_admin_delete_user = GroupAuthority("后台删除用户", "", deletable=DELETABLE_NO)
-    auth_admin_group = GroupAuthority("后台用户组列表", "", deletable=DELETABLE_NO)
-    auth_admin_add_group = GroupAuthority("后台新增用户组", "", deletable=DELETABLE_NO)
-    auth_admin_edit_group = GroupAuthority("后台修改用户组", "", deletable=DELETABLE_NO)
-    auth_admin_delete_group = GroupAuthority("后台删除用户组", "", deletable=DELETABLE_NO)
-    auth_admin_status = GroupAuthority("后台状态列表", "", deletable=DELETABLE_NO)
-    auth_admin_property = GroupAuthority("后台属性列表", "", deletable=DELETABLE_NO)
-    auth_admin_home_config = GroupAuthority("主页配置列表", "", deletable=DELETABLE_NO)
-    auth_admin_admin_config = GroupAuthority("后台配置列表", "", deletable=DELETABLE_NO)
-    auth_admin_mail_config = GroupAuthority("邮件配置列表", "", deletable=DELETABLE_NO)
-    auth_admin_system_config = GroupAuthority("系统配置列表", "", deletable=DELETABLE_NO)
+    auth_admin_index = GroupAuthority("后台仪表盘", "auth_admin_index", "进入后台仪表盘", deletable=DELETABLE_NO)
+    auth_admin_post = GroupAuthority("后台文章列表", "auth_admin_post", "", deletable=DELETABLE_NO)
+    auth_admin_add_post = GroupAuthority("后台写文章", "auth_admin_add_post", "", deletable=DELETABLE_NO)
+    auth_admin_edit_post = GroupAuthority("后台修改文章", "auth_admin_edit_post", "", deletable=DELETABLE_NO)
+    auth_admin_draft_post = GroupAuthority("后台草稿列表", "auth_admin_draft_post", "", deletable=DELETABLE_NO)
+    auth_admin_delete_post = GroupAuthority("后台删除文章", "auth_admin_delete_post", "", deletable=DELETABLE_NO)
+    auth_admin_comment = GroupAuthority("后台评论列表", "auth_admin_comment", "", deletable=DELETABLE_NO)
+    auth_admin_delete_comment = GroupAuthority("后台删除评论列表", "auth_admin_delete_comment", "", deletable=DELETABLE_NO)
+    auth_admin_comment_reply = GroupAuthority("后台评论回复列表", "auth_admin_comment_reply", "", deletable=DELETABLE_NO)
+    auth_admin_delete_comment_reply = GroupAuthority("后台删除评论回复列表", "auth_admin_delete_comment_reply", "",
+                                                     deletable=DELETABLE_NO)
+    auth_admin_category = GroupAuthority("后台类别列表", "", "auth_admin_category", deletable=DELETABLE_NO)
+    auth_admin_add_category = GroupAuthority("后台增加类别", "auth_admin_add_category", "", deletable=DELETABLE_NO)
+    auth_admin_edit_category = GroupAuthority("后台修改类别", "auth_admin_edit_category", "", deletable=DELETABLE_NO)
+    auth_admin_delete_category = GroupAuthority("后台删除类别", "auth_admin_delete_category", "", deletable=DELETABLE_NO)
+    auth_admin_user = GroupAuthority("后台用户列表", "auth_admin_user", "", deletable=DELETABLE_NO)
+    auth_admin_add_user = GroupAuthority("后台新增用户", "auth_admin_add_user", "", deletable=DELETABLE_NO)
+    auth_admin_edit_user = GroupAuthority("后台修改用户", "auth_admin_edit_user", "", deletable=DELETABLE_NO)
+    auth_admin_delete_user = GroupAuthority("后台删除用户", "auth_admin_delete_user", "", deletable=DELETABLE_NO)
+    auth_admin_group = GroupAuthority("后台用户组列表", "auth_admin_group", "", deletable=DELETABLE_NO)
+    auth_admin_add_group = GroupAuthority("后台新增用户组", "auth_admin_add_group", "", deletable=DELETABLE_NO)
+    auth_admin_edit_group = GroupAuthority("后台修改用户组", "auth_admin_edit_group", "", deletable=DELETABLE_NO)
+    auth_admin_delete_group = GroupAuthority("后台删除用户组", "auth_admin_delete_group", "", deletable=DELETABLE_NO)
+    auth_admin_status = GroupAuthority("后台状态列表", "auth_admin_status", "", deletable=DELETABLE_NO)
+    auth_admin_property = GroupAuthority("后台属性列表", "auth_admin_property", "", deletable=DELETABLE_NO)
+    auth_admin_auth = GroupAuthority("后台权限列表", "auth_admin_auth", "", deletable=DELETABLE_NO)
+    auth_admin_add_auth = GroupAuthority("后台新增权限", "auth_admin_add_auth", "", deletable=DELETABLE_NO)
+    auth_admin_edit_auth = GroupAuthority("后台修改权限", "auth_admin_edit_auth", "", deletable=DELETABLE_NO)
+    auth_admin_delete_auth = GroupAuthority("后台删除权限", "auth_admin_delete_auth", "", deletable=DELETABLE_NO)
+    auth_admin_home_config = GroupAuthority("主页配置列表", "auth_admin_home_config", "", deletable=DELETABLE_NO)
+    auth_admin_admin_config = GroupAuthority("后台配置列表", "auth_admin_admin_config", "", deletable=DELETABLE_NO)
+    auth_admin_mail_config = GroupAuthority("邮件配置列表", "auth_admin_mail_config", "", deletable=DELETABLE_NO)
+    auth_admin_system_config = GroupAuthority("系统配置列表", "auth_admin_system_config", "", deletable=DELETABLE_NO)
 
     # 其他配置
     # auth_admin_delete_group = GroupAuthority("后台删除用户组", "", deletable=DELETABLE_NO)
@@ -114,11 +126,14 @@ def init_database():
                  web_system_upload_img_path, web_system_upload_avatar_path, web_system_font_path, auth_admin_index,
                  auth_admin_post,
                  auth_admin_add_post, auth_admin_edit_post, auth_admin_draft_post, auth_admin_delete_post,
+                 auth_admin_comment, auth_admin_delete_comment, auth_admin_comment_reply,
+                 auth_admin_delete_comment_reply,
                  auth_admin_category,
                  auth_admin_add_category, auth_admin_edit_category, auth_admin_delete_category, auth_admin_user,
                  auth_admin_add_user, auth_admin_edit_user, auth_admin_delete_user, auth_admin_group,
                  auth_admin_add_group,
                  auth_admin_edit_group, auth_admin_delete_group, auth_admin_status, auth_admin_property,
+                 auth_admin_auth, auth_admin_add_auth, auth_admin_edit_auth, auth_admin_delete_auth,
                  auth_admin_home_config,
                  auth_admin_admin_config, auth_admin_mail_config, auth_admin_system_config]
 

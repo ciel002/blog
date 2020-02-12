@@ -10,7 +10,7 @@ from app.model.user import User
 
 @admin.route("/")
 @login_required
-@permission_required(1)
+@permission_required("auth_admin_index")
 def index():
     posts_count = Post.get_posts_count()
     comments_count = PostComment.get_comments_count()

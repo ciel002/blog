@@ -6,14 +6,14 @@ from app.forms.admin.property import PropertyForm
 from app.forms.admin.setting import SettingForm
 from app.forms.admin.status import StatusForm
 from app.function.navigation import get_navigation_info
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
 from app.model.setting import Status, Property, Config
 from app.view.admin import admin
 
 
 @admin.route('/status/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_status")
 def status():
     navigation = get_navigation_info(title="状态", tag="status")
     form = StatusForm()
@@ -32,7 +32,7 @@ def status():
 
 @admin.route('/property/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_property")
 def property():
     user = current_user
     navigation = get_navigation_info(title="属性", tag="property")
@@ -52,7 +52,7 @@ def property():
 
 @admin.route('/setting/<string:type>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_system_config")
 def setting(type):
     if "home" in type:
         box_title = "主页设置"

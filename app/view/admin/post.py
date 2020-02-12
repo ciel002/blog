@@ -1,4 +1,4 @@
-from flask import url_for, redirect, request, render_template, abort
+from flask import url_for, redirect, request, render_template
 from flask_login import login_required
 
 from app.common.constant import STATUS_PUBLISH, STATUS_DRAFT, STATUS_DELETED
@@ -6,7 +6,7 @@ from app.forms.admin.post import PostForm
 from app.function.config import get_config
 from app.function.navigation import get_navigation_info
 from app.function.paginate import get_admin_posts_paginate
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
 from app.model.post import Post
 from app.view.admin import admin
 
@@ -14,7 +14,7 @@ from app.view.admin import admin
 @admin.route('/post/', methods=['GET', 'POST'])
 @admin.route('/post/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_post")
 def post(page=1):
     """
     文章页面
@@ -33,7 +33,7 @@ def post(page=1):
 
 @admin.route('/add_post/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_add_post")
 def add_post():
     """
     写文章页面
@@ -60,7 +60,7 @@ def add_post():
 
 @admin.route('/alter_post/<int:post_id>/<post_title>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_edit_post")
 def alter_post(post_id, post_title):
     """
     修改文章页面
@@ -96,7 +96,7 @@ def alter_post(post_id, post_title):
 @admin.route('/draft_post/', methods=['GET', 'POST'])
 @admin.route('/draft_post/list/<int:page>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_draft_post")
 def draft_post(page=1):
     """
     草稿箱页面
@@ -116,7 +116,7 @@ def draft_post(page=1):
 @admin.route('/dustbin_post/', methods=['GET', 'POST'])
 @admin.route('/dustbin_post/list/<int:page>', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_delete_post")
 def dustbin_post(page=1):
     """
     垃圾箱页面

@@ -4,14 +4,14 @@ from flask_login import login_required
 from app.common.constant import STATUS_USELESS
 from app.forms.admin.cat import CategoryForm
 from app.function.navigation import get_navigation_info
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
 from app.model.cat import Category
 from app.view.admin import admin
 
 
 @admin.route('/category/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_category")
 def category():
     navigation = get_navigation_info(title="类别", tag="category")
     if request.method == 'GET':
@@ -25,7 +25,7 @@ def category():
 
 @admin.route('/add_category/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_add_category")
 def add_category():
     navigation = get_navigation_info(title="添加类别", tag="add_category")
     form = CategoryForm()
@@ -44,7 +44,7 @@ def add_category():
 
 @admin.route('/alter_category/<int:category_id>/<category_sub_name>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_edit_category")
 def alter_category(category_id, category_sub_name):
     navigation = get_navigation_info(title="修改类别", tag="alter_category")
     form = CategoryForm()
@@ -72,7 +72,7 @@ def alter_category(category_id, category_sub_name):
 
 @admin.route('/dustbin_category/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_delete_category")
 def dustbin_category():
     navigation = get_navigation_info(title="垃圾箱", tag="dustbin_category")
     if request.method == 'GET':

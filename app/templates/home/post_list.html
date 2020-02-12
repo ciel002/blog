@@ -1,7 +1,9 @@
 {% for post in posts %}
 <div class="post">
     <div class="post-title h1"><a
-            href="{{ url_for('home.post', post_title=post.title) }}">{{ post.title }}</a></div>
+            href="{{ url_for('home.post', post_title=post.title) }}">{% if post.is_top %}
+            <b class="text-red">【置顶】</b>
+            {% endif %}{{ post.title }}</a></div>
     <div class="post-option">
         <ul class="list-inline">
             <li><i class="fa fa-clock-o"></i> {{ post.create_time }}</li>

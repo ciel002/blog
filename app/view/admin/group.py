@@ -1,16 +1,16 @@
 from flask import request, url_for, redirect, render_template
 from flask_login import login_required
-
 from app.forms.admin.group import GroupForm
 from app.function.navigation import get_navigation_info
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
+from app.model.auth import GroupAuthority
 from app.model.group import UserGroup
 from app.view.admin import admin
 
 
 @admin.route('/group/')
 @login_required
-@admin_required
+@permission_required("auth_admin_group")
 def group():
     navigation = get_navigation_info(title="用户组管理", sub_title="控制台", tag="group")
     groups = UserGroup.query.all()
@@ -26,30 +26,33 @@ def group():
 
 @admin.route('/add_group/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_add_group")
 def add_group():
     navigation = get_navigation_info(title="用户组", sub_title="新的用户组", tag="add_group")
+    GroupForm.init_auths_radio()
     form = GroupForm()
     if request.method == 'POST':
-        group = UserGroup(name=form.name.data, status=form.status.data)
+        auths = GroupAuthority.result_to_str(form)
+        group = UserGroup(name=form.name.data, status=form.status.data, authority=auths)
         group.add_one()
-        return redirect(url_for('admin.user'))
+        return redirect(url_for('admin.group'))
     if request.method == 'GET':
         return render_template('admin/edit_group.html', navigation=navigation, form=form)
 
 
 @admin.route('/alter_group/<int:group_id>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_edit_group")
 def alter_group(group_id):
     navigation = get_navigation_info(title="修改用户组", sub_title="修改已存在的用户组", tag="alter_group")
+    GroupForm.init_auths_radio(group_id)
     form = GroupForm()
     if request.method == 'GET':
         group = UserGroup.query.filter_by(id=group_id).first()
-        form.alter_group(group.name)
+        form.init_form(group.name, group.status)
         return render_template('admin/edit_group.html', navigation=navigation, form=form)
     if request.method == 'POST':
+        auths = GroupAuthority.result_to_str(form)
         group = UserGroup.query.filter_by(id=group_id).first()
-        group.update_group(form.name.data, form.authority_add_post.data, form.authority_delete_post.data,
-                           form.authority_comment_post.data, form.authority_visit_post.data)
-        return redirect(url_for('admin.user'))
+        group.update_group(name=form.name.data, status=form.status.data, authority=auths)
+        return redirect(url_for('admin.group'))

@@ -12,7 +12,7 @@ from app.model.user import User
 def get_home_index_paginate(page, per_page):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
-                            Post.abstract).filter(Post.uid == User.id
+                            Post.abstract, Post.is_top).filter(Post.uid == User.id
                                                   , Post.category_id == Category.id,
                                                   Post.post_property == PROPERTY_PUBLIC
                                                   , Post.status == STATUS_PUBLISH).order_by(
@@ -22,7 +22,7 @@ def get_home_index_paginate(page, per_page):
 def get_home_category_paginate(page, per_page, category_sub_name):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
-                            Post.abstract).filter(Post.uid == User.id
+                            Post.abstract, Post.is_top).filter(Post.uid == User.id
                                                   , Post.category_id == Category.id,
                                                   Post.post_property == PROPERTY_PUBLIC
                                                   , Post.status == STATUS_PUBLISH,
@@ -33,7 +33,7 @@ def get_home_category_paginate(page, per_page, category_sub_name):
 def get_home_search_paginate(page, per_page, query):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
-                            Post.abstract).filter(Post.uid == User.id
+                            Post.abstract, Post.is_top).filter(Post.uid == User.id
                                                   , Post.category_id == Category.id,
                                                   Post.post_property == PROPERTY_PUBLIC
                                                   , Post.status == STATUS_PUBLISH,

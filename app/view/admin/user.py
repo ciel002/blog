@@ -1,16 +1,14 @@
-import os
 
 from flask import redirect, url_for, request, render_template, json
 from flask_login import login_required
-from werkzeug.utils import secure_filename
+
 
 from app.forms.admin.user import UserForm
-from app.function.avatar import resize_avatar, alter_avatar
+from app.function.avatar import alter_avatar
 from app.function.config import get_config
-from app.function.img import md5_file
 from app.function.navigation import get_navigation_info
 from app.function.paginate import get_admin_users_paginate
-from app.function.permissions import admin_required
+from app.function.permissions import permission_required
 from app.model.group import UserGroup
 from app.model.user import User
 from app.view.admin import admin
@@ -21,7 +19,7 @@ from app.view.admin import admin
 @admin.route('/user/<string:gid>/')
 @admin.route('/user/<string:gid>/list/<int:page>/')
 @login_required
-@admin_required
+@permission_required("auth_admin_user")
 def user(gid=0, page=1):
     navigation = get_navigation_info(title="用户管理", sub_title="控制台", tag="user")
     pagination = get_admin_users_paginate(page, int(get_config("web_admin_user_per_page")), gid)
@@ -38,7 +36,7 @@ def user(gid=0, page=1):
 
 @admin.route('/add_user/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_add_user")
 def add_user():
     navigation = get_navigation_info(title="添加用户", sub_title="新的用户", tag="add_user")
     form = UserForm()
@@ -53,7 +51,7 @@ def add_user():
 
 @admin.route('/alter_user/<int:uid>/', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@permission_required("auth_admin_edit_user")
 def alter_user(uid):
     navigation = get_navigation_info(title="修改用户", sub_title="已存在的用户", tag="alter_user")
     form = UserForm()

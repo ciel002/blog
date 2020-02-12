@@ -40,4 +40,5 @@ def create_app(config_name):
     login_manager.init_app(app)
 
     # 返回app实例对象
+    app.app_context().push()
     return app

@@ -126,8 +126,10 @@ class User(UserMixin, db.Model):
         return result
 
     def can(self, permission):
-        authority = db.session.query(UserGroup.authority).filter(UserGroup.id == self.group_id).first()
-        if str(permission) in authority[0]:
+        from app.model.auth import GroupAuthority
+        authority = db.session.query(UserGroup.authority).filter(UserGroup.id == self.group_id).first()[0].split(",")
+        aid = GroupAuthority.query.filter_by(sub_name=permission).first().id
+        if str(aid) in authority:
             return True
         return False
 
