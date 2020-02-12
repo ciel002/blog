@@ -2,7 +2,7 @@ from flask import url_for, render_template, flash, request, session
 from flask_login import logout_user, login_required, login_user
 from werkzeug.utils import redirect
 
-from app.forms.admin.login import LoginForm
+from app.form.admin.login import LoginForm
 from app.model.user import User
 from app.view.admin import admin
 

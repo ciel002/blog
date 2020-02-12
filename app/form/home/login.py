@@ -1,7 +1,7 @@
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-from app.forms.BaseForm import CustomForm
+from app.form.BaseForm import CustomForm
 
 
 class LoginForm(CustomForm):

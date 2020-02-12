@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, render_template
 from flask_login import login_required
 
 from app.common.constant import STATUS_USELESS
-from app.forms.admin.cat import CategoryForm
+from app.form.admin.cat import CategoryForm
 from app.function.navigation import get_navigation_info
 from app.function.permissions import permission_required
 from app.model.cat import Category

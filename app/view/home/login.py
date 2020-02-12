@@ -2,7 +2,7 @@ from flask import url_for, redirect, request, session, flash, render_template, j
 from flask_login import login_user, login_required, logout_user
 
 from app.common.constant import GROUP_USER
-from app.forms.home.login import LoginForm, RegisterForm
+from app.form.home.login import LoginForm, RegisterForm
 from app.model.user import User
 from app.view.home import home
 

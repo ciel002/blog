@@ -2,7 +2,7 @@ from flask import url_for, redirect, request, render_template
 from flask_login import login_required
 
 from app.common.constant import STATUS_PUBLISH, STATUS_DRAFT, STATUS_DELETED
-from app.forms.admin.post import PostForm
+from app.form.admin.post import PostForm
 from app.function.config import get_config
 from app.function.navigation import get_navigation_info
 from app.function.paginate import get_admin_posts_paginate

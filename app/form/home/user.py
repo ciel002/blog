@@ -1,7 +1,7 @@
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
 
-from app.forms.BaseForm import CustomForm
+from app.form.BaseForm import CustomForm
 
 
 class ResetPasswordForm(CustomForm):

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 
 from app import db
-from app.forms.admin.setting import SettingForm
+from app.form.admin.setting import SettingForm
 from app.model.setting import Config
 from app.view.admin import admin
 

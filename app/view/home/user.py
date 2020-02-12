@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, current_app, Response, json, session
 from flask_login import login_required, current_user, login_user
 
-from app.forms.home.user import ResetPasswordForm, ResetEmailForm
+from app.form.home.user import ResetPasswordForm, ResetEmailForm
 from app.model.post import Post
 from app.model.user import User
 from app.view.home import home

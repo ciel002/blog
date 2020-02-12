@@ -1,6 +1,6 @@
 from flask import request, url_for, redirect, render_template
 from flask_login import login_required
-from app.forms.admin.group import GroupForm
+from app.form.admin.group import GroupForm
 from app.function.navigation import get_navigation_info
 from app.function.permissions import permission_required
 from app.model.auth import GroupAuthority

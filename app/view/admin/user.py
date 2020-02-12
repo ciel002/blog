@@ -3,7 +3,7 @@ from flask import redirect, url_for, request, render_template, json
 from flask_login import login_required
 
 
-from app.forms.admin.user import UserForm
+from app.form.admin.user import UserForm
 from app.function.avatar import alter_avatar
 from app.function.config import get_config
 from app.function.navigation import get_navigation_info

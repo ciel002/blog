@@ -2,9 +2,9 @@ from flask import redirect, url_for, request, render_template
 from flask_login import current_user, login_required
 from wtforms import StringField
 
-from app.forms.admin.property import PropertyForm
-from app.forms.admin.setting import SettingForm
-from app.forms.admin.status import StatusForm
+from app.form.admin.property import PropertyForm
+from app.form.admin.setting import SettingForm
+from app.form.admin.status import StatusForm
 from app.function.navigation import get_navigation_info
 from app.function.permissions import permission_required
 from app.model.setting import Status, Property, Config
