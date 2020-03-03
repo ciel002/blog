@@ -71,7 +71,7 @@ class TestConfig(Config):
 
 # 生产环境
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://ciel:123456@localhost/product-database'
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://debian-sys-maint:NH7vup8D4frYbfRI@localhost/product-database'
 
 
 
