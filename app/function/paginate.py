@@ -13,32 +13,32 @@ def get_home_index_paginate(page, per_page):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
                             Post.abstract, Post.is_top).filter(Post.uid == User.id
-                                                  , Post.category_id == Category.id,
-                                                  Post.post_property == PROPERTY_PUBLIC
-                                                  , Post.status == STATUS_PUBLISH).order_by(
-        Post.create_time.desc()).paginate(page=page, per_page=per_page)
+                                                               , Post.category_id == Category.id,
+                                                               Post.post_property == PROPERTY_PUBLIC
+                                                               , Post.status == STATUS_PUBLISH).order_by(
+        Post.is_top.desc(), Post.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_home_category_paginate(page, per_page, category_sub_name):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
                             Post.abstract, Post.is_top).filter(Post.uid == User.id
-                                                  , Post.category_id == Category.id,
-                                                  Post.post_property == PROPERTY_PUBLIC
-                                                  , Post.status == STATUS_PUBLISH,
-                                                  Category.sub_name == category_sub_name).order_by(
-        Post.create_time.desc()).paginate(page=page, per_page=per_page)
+                                                               , Post.category_id == Category.id,
+                                                               Post.post_property == PROPERTY_PUBLIC
+                                                               , Post.status == STATUS_PUBLISH,
+                                                               Category.sub_name == category_sub_name).order_by(
+        Post.is_top.desc(),Post.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_home_search_paginate(page, per_page, query):
     return db.session.query(Post.title, Post.create_time, User.name
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
                             Post.abstract, Post.is_top).filter(Post.uid == User.id
-                                                  , Post.category_id == Category.id,
-                                                  Post.post_property == PROPERTY_PUBLIC
-                                                  , Post.status == STATUS_PUBLISH,
-                                                  Post.title.ilike('%%%s%%' % query)).order_by(
-        Post.create_time.desc()).paginate(page=page, per_page=per_page)
+                                                               , Post.category_id == Category.id,
+                                                               Post.post_property == PROPERTY_PUBLIC
+                                                               , Post.status == STATUS_PUBLISH,
+                                                               Post.title.ilike('%%%s%%' % query)).order_by(
+        Post.is_top.desc(),Post.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_admin_posts_paginate(page, per_page, status=STATUS_PUBLISH):
@@ -81,14 +81,14 @@ def get_admin_users_paginate(page, per_page, gid):
     return results
 
 
-def get_admin_comments_paginate(page, per_page ,status):
+def get_admin_comments_paginate(page, per_page, status):
     return db.session.query(PostComment.id, User.name, PostComment.content,
                             Post.title, PostComment.status).filter(
         PostComment.status == status, User.id == PostComment.uid, Post.id == PostComment.pid).order_by(
         PostComment.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
-def get_admin_post_replies_paginate(page, per_page ,status):
+def get_admin_post_replies_paginate(page, per_page, status):
     return db.session.query(PostReply.id, User.name, PostReply.content,
                             PostComment.id.label("cid"), PostReply.status).filter(
         PostReply.status == status, User.id == PostReply.uid, PostComment.id == PostReply.cid).order_by(
