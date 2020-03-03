@@ -18,9 +18,6 @@ from app.model import *
 # 导入公共函数
 from app.function import *
 
-# 导入jinja2模板自定义函数
-from app.function import *
-
 
 # APP整体上下文配置环境
 @app.context_processor
@@ -34,7 +31,6 @@ def my_context_processor():
 
 
 manager = Manager(app)
-
 manager.add_command("runserver", Server(host='127.0.0.1', port=8091, use_debugger=True, use_reloader=True))
 manager.add_command("db", MigrateCommand)
 

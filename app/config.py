@@ -1,8 +1,29 @@
 import os
+import pickle
+import redis
 
-# BASE_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 ROOT_DIR = os.path.abspath(os.path.dirname(BASE_DIR))
+
+
+class Redis:
+    @staticmethod
+    def connect():
+        r = redis.StrictRedis(host='39.107.25.30', port=6379, password='123456', decode_responses=True)
+        return r
+
+    # 将内存数据二进制通过序列号转为文本流，再存入redis
+    @staticmethod
+    def set_data(r, key, data, ex=None):
+        r.set(key, pickle.dumps(data), ex)
+
+    # 将文本流从redis中读取并反序列化，返回返回
+    @staticmethod
+    def get_data(r, key):
+        data = r.get(key)
+        if data is None:
+            return None
+        return pickle.loads(data)
 
 
 # 定义配置基类

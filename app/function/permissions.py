@@ -1,13 +1,11 @@
 from functools import wraps
 from flask import abort
 from flask_login import current_user
-
 from app.common.constant import GROUP_SUPERUSER
 
 
+
 # 如果有访问某个页面的权限，则可以访问否则无法访问该页面
-
-
 def permission_required(permission):
     def decorator(f):
         @wraps(f)

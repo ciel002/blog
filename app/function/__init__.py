@@ -1,1 +1,1 @@
-from . import login, permissions
+from . import login, permissions, redis

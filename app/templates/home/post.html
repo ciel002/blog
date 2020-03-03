@@ -11,6 +11,7 @@
                     <li><i class="fa fa-tag"></i> <a
                             href="{{ url_for('home.category', category_sub_name=post.category_sub_name) }}">{{ post.category_name }}</a>
                     </li>
+                    <li><i class="fa fa-eye"></i> {{ get_explore_post_count(post.id) }}</li>
                 </ul>
             </div>
         </div>

@@ -36,7 +36,7 @@
                                             <td>{{ post.create_time }}</td>
                                             <td>{{ post.name }}</td>
                                             <td>{{ post.comment_total }}</td>
-                                            <td>0</td>
+                                            <td>{{ get_explore_post_count(post.id) }}</td>
                                             <td>{{ post.first_visited_time }}</td>
                                             <td>{{ post.last_visited_time }}</td>
                                             <td>{{ post.status_name }}</td>

@@ -348,10 +348,14 @@ ul,li{
     font-size: 14px;
     margin-top: 20px;
 }
-
 footer{
     background: #f2f2f2;
     min-height: 160px;
     text-align: center;
     padding: 25px 0 ;
+    position: relative;
+}
+footer .beian{
+    position: relative;
+    top: 30px;
 }

@@ -3,12 +3,13 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from app.config import config
+from app.config import config, Redis
 
 db = SQLAlchemy()
 migrate = Migrate(db)
 mail = Mail()
 login_manager = LoginManager()
+redis = Redis.connect()
 
 
 # 将创建app的动作封装成一个函数
@@ -38,6 +39,10 @@ def create_app(config_name):
     mail.init_app(app)
     # 加载用户登录插件
     login_manager.init_app(app)
+
+    # 定义全局函数
+    from app.function.redis import get_explore_post_count
+    app.add_template_global(get_explore_post_count, 'get_explore_post_count')
 
     # 返回app实例对象
     app.app_context().push()

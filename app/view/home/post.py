@@ -2,6 +2,7 @@ from flask import render_template, request, json, Response
 from flask_login import current_user, login_required
 
 from app import db
+from app.function.redis import increase_explore_count, increase_explore_post_count
 from app.model.cat import Category
 from app.model.post import Post, PostComment, PostReply
 from app.model.user import User
@@ -9,6 +10,7 @@ from app.view.home import home
 
 
 @home.route('/post/<string:post_title>/')
+@increase_explore_count
 def post(post_title):
     post = db.session.query(Post.id, Post.title, Post.create_time, User.name, Post.uid
                             , Category.name.label('category_name'), Category.sub_name.label('category_sub_name'),
@@ -16,6 +18,7 @@ def post(post_title):
                                                  , Post.category_id == Category.id,
                                                  Post.title == post_title).first()
     comments_replies = PostComment.get_post_comments_and_replies(post.id)
+    increase_explore_post_count(post.id)
     return render_template('home/post.html', post=post, comments_replies=comments_replies)
 
 
