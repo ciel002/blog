@@ -48,6 +48,7 @@ class Post(db.Model):
         return '<Post %r>' % self.username
 
     def add_one(self):
+
         db.session.add(self)
         db.session.commit()
 

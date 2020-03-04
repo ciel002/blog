@@ -185,7 +185,6 @@ ul,li{
     margin-right: 105px;
     border-bottom: 2px #ebebeb solid;
 }
-
 .u_header h1{
     width: 167px;
     height: 50px;
@@ -348,6 +347,30 @@ ul,li{
     font-size: 14px;
     margin-top: 20px;
 }
+
+.csgo_header{
+    height: 50px;
+    margin-bottom: 20px;
+    margin-right: 105px;
+    border-bottom: 2px #ebebeb solid;
+}
+
+.csgo_header h1{
+    width: 290px;
+    height: 50px;
+    font-size: 30px;
+    color: #555;
+    border-bottom: 2px solid #000;
+    text-align: center;
+}
+.csgo_notice{
+    margin: 10px 0;
+}
+.csgo_main{
+    margin: 20px 0px;
+}
+
+
 footer{
     background: #f2f2f2;
     min-height: 160px;

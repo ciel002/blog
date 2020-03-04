@@ -1,0 +1,89 @@
+{% extends 'home/base.html' %}
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="csgo_header">
+                <h1>CSGO数据查询接口</h1>
+                <div class="col-md-12 csgo_main">
+                    <div class="csgo_notice row">
+                        <div class="col-sm-6">
+                            <p class="text-center">5E平台标识号查询方式</p>
+                            <img class="img-responsive col-sm-12"
+                                 src="{{ url_for('static', filename='imgs/5e_domain.png') }}" alt=">5E平台标识号查询方式">
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-center">B5平台标识号查询方式</p>
+                            <img class="img-responsive col-sm-12"
+                                 src="{{ url_for('static', filename='imgs/b5_domain.png') }}" alt=">5E平台标识号查询方式">
+                        </div>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="platform_domain" class="col-sm-2 control-label">csgo平台标识号</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="platform_domain"
+                                       placeholder="例如上图中的ciel_itfcjx或者186939639">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                <label class="radio-inline">
+                                    <input type="radio" name="platform" id="a5e" value="5E" checked> 5E平台
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="platform" id="b5" value="B5"> B5平台
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="submit" type="submit" class="btn btn-default" onclick="return false;">查询
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        $('img').click(function (e) {
+            e.target.tagName === 'IMG' && BigPicture({
+                el: e.target,
+                imgSrc: e.target.src.replace('_thumb', '')
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#submit').on('click', function () {
+                var domain = $('#platform_domain').val();
+                if (domain == "") {
+                    bootoast({
+                        message: '请输入平台标识号', type: 'info',
+                        position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                    });
+                    return;
+                }
+                var platform = $('input[name="platform"]:checked').val();
+                var url = "api.mingchen.xyz/v2/api";
+                var url = platform == "5E" ? url + "/5e?domain=" + domain : url + "/b5?steamid=" + domain;
+                console.log(url);
+                {#$.ajax({#}
+                {#    type: 'GET',#}
+                {#    dataType: 'JSON',#}
+                {#    url: url,#}
+                {#    success: function (res) {#}
+                {#        if (res.code == 1) {#}
+                {#            s#}
+                {#        }#}
+                {#    }#}
+                {#})#}
+            })
+        });
+    </script>
+{% endblock %}

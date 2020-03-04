@@ -27,7 +27,7 @@ def get_home_category_paginate(page, per_page, category_sub_name):
                                                                Post.post_property == PROPERTY_PUBLIC
                                                                , Post.status == STATUS_PUBLISH,
                                                                Category.sub_name == category_sub_name).order_by(
-        Post.is_top.desc(),Post.create_time.desc()).paginate(page=page, per_page=per_page)
+        Post.is_top.desc(), Post.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_home_search_paginate(page, per_page, query):
@@ -38,7 +38,7 @@ def get_home_search_paginate(page, per_page, query):
                                                                Post.post_property == PROPERTY_PUBLIC
                                                                , Post.status == STATUS_PUBLISH,
                                                                Post.title.ilike('%%%s%%' % query)).order_by(
-        Post.is_top.desc(),Post.create_time.desc()).paginate(page=page, per_page=per_page)
+        Post.is_top.desc(), Post.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_admin_posts_paginate(page, per_page, status=STATUS_PUBLISH):
