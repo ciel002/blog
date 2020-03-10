@@ -10,38 +10,14 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-group">
-                                    {{ form.title.label }}
-                                    {{ form.title }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.author.label }}
-                                    {{ form.author(disabled="disabled") }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.abstract.label }}
-                                    {{ form.abstract }}
-                                </div>
-                                <div class="form-group">
                                     {{ form.content.label }}
                                     {{ form.content }}
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    {{ form.rank.label }}
-                                    {{ form.rank }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.is_top.label }}
-                                    {{ form.is_top }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.category_id.label }}
-                                    {{ form.category_id }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form.post_property.label }}
-                                    {{ form.post_property }}
+                                    {{ form.moment_property.label }}
+                                    {{ form.moment_property }}
                                 </div>
                                 <div class="form-group">
                                     {{ form.status.label }}
@@ -50,7 +26,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="box-footer">
                         {{ form.submit }}
                     </div>
@@ -62,33 +37,10 @@
 {% block javascript %}
     <script>
         $(function () {
-            $('#abstract').froalaEditor({
-                enter: $.FroalaEditor.ENTER_P,
-                placeholderText: null,
-                heightMin: 200,
-                charCounterMax: 800,
-                imageUploadURL: '{{ url_for('tool.upload_image_froala') }}',//上传到本地服务器
-                imageUploadMethod: 'POST',
-                params: {
-                    acl: '01',
-                    AWSAccessKeyId: '02',
-                    policy: '03',
-                    signature: '04',
-                },
-                autosave: true,
-                autosaveInterval: 2500,
-                saveParams: {postId: '1'},
-                spellcheck: false,
-                language: 'zh_cn'
-            })
-        });
-    </script>
-    <script>
-        $(function () {
             $('#content').froalaEditor({
                 enter: $.FroalaEditor.ENTER_P,
                 placeholderText: null,
-                heightMin: 450,
+                heightMin: 250,
                 charCounterMax: 9999,
                 imageUploadURL: '{{ url_for('tool.upload_image_froala') }}',//上传到本地服务器
                 imageUploadMethod: 'POST',

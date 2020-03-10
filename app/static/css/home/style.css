@@ -72,22 +72,26 @@ ul,li{
     margin-right:auto;
     margin-left:auto;
 }
-
-.search-box{
-    margin-top: 60px;
+.about-box{
+    margin-top: 40px;
     padding-bottom: 20px;
     border-bottom: 1px solid #eeeeee;
 }
-.latest-post,.category-list{
+.search-box{
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+.latest-post,.category-list,.moment-list{
     margin: 40px 0;
 }
-.latest-post>h4,.category-list>h4{
+.latest-post>h4,.category-list>h4,.moment-list>h4,.about-box>h4,.search-box>h4{
     color: #999999;
 }
-.latest-post>ul,.category-list>ul{
+.latest-post>ul,.category-list>ul,.moment-list>ul,.about-box>ul{
     padding: 5px 0px 5px 20px;
 }
-.latest-post li,.category-list li{
+.latest-post li,.category-list li,.moment-list li,.about-box li{
     margin-top: 15px;
     list-style: circle;
 }
@@ -175,6 +179,44 @@ ul,li{
 }
 .reply-item #form_reply{
     margin: 0 10px 10px;
+}
+/* 动态样式 */
+.moment-box{
+    position: relative;
+    border-radius: 3px;
+    margin: 20px 0;
+    width: 100%;
+    box-shadow: 2px 2px 5px 5px rgba(0,0,0,0.1);
+}
+.moment-box-header{
+    color: #444444;
+    display: block;
+    padding: 10px;
+    position: relative;
+    border-bottom: 1px solid #f4f4f4;
+}
+.moment-box .user-block img{
+    width: 40px;
+    height: 40px;
+    float: left;
+}
+.moment-box .user-block .username{
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 50px;
+    display: block;
+}
+.moment-box .user-block .description{
+    color: #999999;
+    font-size: 13px;
+    display: block;
+    margin-left: 50px;
+}
+.moment-box-body{
+    padding: 10px;
+}
+.moment-next{
+    margin-bottom: 20px;
 }
 
 

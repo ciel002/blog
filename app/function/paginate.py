@@ -4,6 +4,7 @@ from app import db
 from app.common.constant import STATUS_PUBLISH, PROPERTY_PUBLIC
 from app.model.cat import Category
 from app.model.group import UserGroup
+from app.model.moment import Moment
 from app.model.post import Post, PostComment, PostReply
 from app.model.setting import Status, Property
 from app.model.user import User
@@ -53,6 +54,11 @@ def get_admin_posts_paginate(page, per_page, status=STATUS_PUBLISH):
         , Post.category_id == Category.id,
         Post.status == Status.id
         , Post.post_property == Property.id).group_by(Post.id).paginate(page=page, per_page=per_page)
+
+
+def get_admin_moments_paginate(page, per_page, status=STATUS_PUBLISH):
+    return db.session.query(Moment.id, User.name.label('username'), Moment.create_time, Moment.content).filter(
+        Moment.status == status, Moment.uid == User.id, ).paginate(page=page, per_page=per_page)
 
 
 def get_admin_users_paginate(page, per_page, gid):

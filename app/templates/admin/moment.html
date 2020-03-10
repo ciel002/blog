@@ -1,0 +1,95 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">{{ navigation.title }}</h3>
+            </div>
+            <div class="box-body">
+                <div class="dataTables_wrapper form-inline dt-bootstrap">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% for moment in moments %}
+                            <div class="box box-widget">
+                                <div class="box-header with-border">
+                                    <div class="user-block">
+                                        {% if current_user.avatar %}
+                                            <img id="current_avatar"
+                                                 src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                                                 class="img-responsive" alt="头像">
+                                        {% else %}
+                                            <img id="current_avatar"
+                                                 src="{{ url_for('static', filename='imgs/default-logo.gif') }}"
+                                                 class="img-responsive" alt="头像">
+                                        {% endif %}
+                                        <span class="username">{{ moment.username }}</span>
+                                        <span class="description">发布时间 - {{ moment.create_time }}</span>
+                                    </div>
+                                    <!-- /.user-block -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="moment-content">
+                                        {% autoescape False %}
+                                        {{ moment.content }}
+                                        {% endautoescape %}
+                                    </div>
+                                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i>
+                                        Share
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-xs"><i
+                                            class="fa fa-thumbs-o-up"></i> Like
+                                    </button>
+                                    <a href="{{ url_for('admin.alter_moment', moment_id=moment.id) }}" type="button"
+                                       class="btn btn-default btn-xs">修改</a>
+                                    {% if navigation.tag == "dustbin_moment" %}
+                                        <a href="{{ url_for('admin.dustbin_moment', moment_id=moment.id) }}"
+                                           type="button"
+                                           class="btn btn-default btn-xs">删除</a>
+                                    {% else %}
+                                        <a href="{{ url_for('admin.moment', moment_id=moment.id) }}" type="button"
+                                           class="btn btn-default btn-xs">删除</a>
+                                    {% endif %}
+                                    <span class="pull-right text-muted">127 likes - 3 comments</span>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="dataTables_info" role="status">显示
+                                {{ (pagination.page-1)* web_config.web_admin_post_per_page|int +1 }}
+                                到 {{ pagination.page * web_config.web_admin_post_per_page|int }}
+                                本页共 {{ moments_total }}
+                                动态
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            {% import 'common/pages.html' as pg %}
+                            {{ pg.paginate(pagination,'admin.moment') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false
+            })
+        })
+    </script>
+{% endblock %}

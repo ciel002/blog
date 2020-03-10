@@ -1,0 +1,36 @@
+{% for moment in moments %}
+<div class="moment-box box-widget">
+    <div class="moment-box-header with-border">
+        <div class="user-block">
+            {% if current_user.avatar %}
+                <img id="current_avatar"
+                     src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                     class="img-responsive" alt="头像">
+            {% else %}
+                <img id="current_avatar"
+                     src="{{ url_for('static', filename='imgs/default-logo.gif') }}"
+                     class="img-responsive" alt="头像">
+            {% endif %}
+            <span class="username">{{ moment.username }}</span>
+            <span class="description">发布时间 - {{ moment.create_time }}</span>
+        </div>
+        <!-- /.user-block -->
+    </div>
+    <!-- /.box-header -->
+    <div class="moment-box-body">
+        <div class="moment-content">
+            {% autoescape False %}
+            {{ moment.content }}
+            {% endautoescape %}
+        </div>
+        <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i>
+            Share
+        </button>
+        <button type="button" class="btn btn-default btn-xs"><i
+                class="fa fa-thumbs-o-up"></i> Like
+        </button>
+        <span class="pull-right text-muted">127 likes - 3 comments</span>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endfor %}

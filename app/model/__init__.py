@@ -1,1 +1,1 @@
-from . import album, auth, cat, group, picture, post, setting, user
+from . import album, auth, cat, group, moment, picture, post, setting, user

@@ -1,4 +1,13 @@
+<div class="about-box">
+    {#    关于我的信息#}
+    <h4>关于我</h4>
+    <ul>
+        <li>QQ:1102839480</li>
+{#        <li>微信：ccnc320</li>#}
+    </ul>
+</div>
 <div class="search-box">
+    <h4>搜索</h4>
     <form action="{{ url_for('home.search') }}" method="get">
         <input type="search" class="form-control" name="query" id="query" placeholder="搜索文章标题">
     </form>

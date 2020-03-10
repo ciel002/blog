@@ -1,0 +1,82 @@
+<a href="#" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>C</b>iel</span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>{{ web_config.web_admin_logo_title }}</b></span>
+</a>
+<nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+    </a>
+
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{{ url_for('home.index') }}" target="_blank">打开主页</a>
+            </li>
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {% if current_user.avatar %}
+                        <img src="{{ url_for('tool.load_avatar') }}" class="user-image"
+                             alt="User Image">
+                    {% else %}
+                        <img src="{{ url_for('static', filename="imgs/default-logo.gif") }}"
+                             class="user-image"
+                             alt="User Image">
+                    {% endif %}
+                    <span class="hidden-xs">{{ current_user.name }}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <!-- User image -->
+                    <li class="user-header">
+                        {% if current_user.avatar %}
+                            <img src="{{ url_for('tool.load_avatar') }}" class="img-circle"
+                                 alt="User Image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename="imgs/default-logo.gif") }}"
+                                 class="img-circle"
+                                 alt="User Image">
+                        {% endif %}
+                        <p>
+                            Current User - {{ current_user.name }}
+                            {#                                    Alexander Pierce - Web Developer#}
+                            <small>Member since Nov. 2012</small>
+                        </p>
+                    </li>
+                    {#                            <!-- Menu Body -->#}
+                    {#                            <li class="user-body">#}
+                    {#                                <div class="row">#}
+                    {#                                    <div class="col-xs-4 text-center">#}
+                    {#                                        <a href="#">Followers</a>#}
+                    {#                                    </div>#}
+                    {#                                    <div class="col-xs-4 text-center">#}
+                    {#                                        <a href="#">Sales</a>#}
+                    {#                                    </div>#}
+                    {#                                    <div class="col-xs-4 text-center">#}
+                    {#                                        <a href="#">Friends</a>#}
+                    {#                                    </div>#}
+                    {#                                </div>#}
+                    {#                                <!-- /.row -->#}
+                    {#                            </li>#}
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <a href="{{ url_for('admin.alter_user', uid = current_user.id) }}"
+                               class="btn btn-default btn-flat">Info</a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="{{ url_for("admin.logout") }}" class="btn btn-default btn-flat">Sign
+                                out</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!-- Control Sidebar Toggle Button -->
+            <li>
+                <a href="{{ url_for('admin.setting', type='web_system') }}"><i class="fa fa-gears"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>

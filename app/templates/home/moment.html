@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-12">
+                {% if moments.__len__() == 0 %}
+                    <h3>暂时没有动态</h3>
+                {% else %}
+                    <h3>最近动态</h3>
+                {% endif %}
+                <div class="moment-list">
+                    {% include 'home/moment_list.html' %}
+                </div>
+                <div class="moment-next text-center">
+                    <a name="ajax-moment" type="button" class="btn btn-default">加载更多</a>
+                </div>
+            </div>
+            <div class="col-md-3 hidden-xs hidden-sm">
+                <div class="sidebar">
+                    {% include 'home/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var page = 1;
+        var next = 1;
+        $(function () {
+            $(document).off("click", '.moment-next a[name="ajax-moment"]').on("click", '.moment-next a[name="ajax-moment"]', function () {
+                if (next){
+                    $.ajax({
+                    type: "POST",
+                    url: "{{ url_for('home.ajax_moment') }}" + "?page=" + (++page),
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code == 1) {
+                            bootoast({
+                                message: res.msg, type: 'success',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                            });
+                            $(".moment-list").append(res.data);
+                        } else if (res.code == 0) {
+                            next = 0;
+                            bootoast({
+                                message: res.msg, type: 'info',
+                                position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                            });
+                        }
+                    },
+                    error: function (res) {
+                        bootoast({
+                            message: res.msg, type: 'info',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
+                    }
+                });
+                } else {
+                    bootoast({
+                            message: "别再加载了，真的已经到最后了", type: 'info',
+                            position: 'bottom', dismissable: false, timeout: 2, animateDuration: 700
+                        });
+                }
+            });
+        })
+    </script>
+
+    <script>
+        $('.moment-box').click(function (e) {
+            e.target.tagName === 'IMG' && BigPicture({
+                el: e.target,
+                imgSrc: e.target.src.replace('_thumb', '')
+            });
+        });
+    </script>
+{% endblock %}
