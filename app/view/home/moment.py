@@ -13,6 +13,7 @@ def moment(page=1):
     """
     if request.method == 'GET':
         moments = Moment.get_moments(page=page, limit=10)
+        print(moments)
         latest_posts = Post.get_latest_posts(5)
         return render_template("home/moment.html", moments=moments, latest_posts=latest_posts)
 
@@ -26,6 +27,7 @@ def ajax_moment():
     if request.method == 'POST':
         page = int(request.args.get('page'))
         moments = Moment.get_moments(page=page, limit=10)
+        print(moments)
         if moments:
             data = render_template("home/moment_list.html", moments=moments)
             return Response(json.dumps({'code': 1, 'msg': '加载成功', 'data': data}), content_type='application/json')

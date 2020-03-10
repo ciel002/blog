@@ -22,8 +22,7 @@ def load_avatar():
         return ""
 
 
-@tool.route('/load_edit_avatar/<int:uid>', methods=['GET', 'POST'])
-@login_required
+@tool.route('/load_edit_avatar/<int:uid>/', methods=['GET', 'POST'])
 def load_edit_avatar(uid):
     if request.method == "GET":
         avatar = db.session.query(UserAvatar.name, UserAvatar.path).filter(UserAvatar.uid == uid,

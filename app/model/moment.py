@@ -44,6 +44,6 @@ class Moment(db.Model):
 
     @staticmethod
     def get_moments(page, limit):
-        return db.session.query(Moment.id, Moment.content, User.name.label("username"), Moment.create_time).filter(
+        return db.session.query(Moment.id, Moment.uid, Moment.content, User.name.label("username"), Moment.create_time, User.avatar).outerjoin(User, User.id==Moment.uid).filter(
             Moment.uid == User.id).order_by(Moment.create_time.desc()).slice((page - 1)*limit, page*limit).all()
         pass

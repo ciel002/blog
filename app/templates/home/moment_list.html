@@ -2,9 +2,9 @@
 <div class="moment-box box-widget">
     <div class="moment-box-header with-border">
         <div class="user-block">
-            {% if current_user.avatar %}
+            {% if moment.avatar %}
                 <img id="current_avatar"
-                     src="{{ url_for('tool.load_edit_avatar', uid=current_user.id) }}"
+                     src="{{ url_for('tool.load_edit_avatar', uid=moment.uid) }}"
                      class="img-responsive" alt="头像">
             {% else %}
                 <img id="current_avatar"
