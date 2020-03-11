@@ -26,7 +26,7 @@ def moment(page=1):
         if request.args.get('moment_id') is not None:
             moment = Moment.query.filter_by(id=request.args.get('moment_id')).first()
             moment.update_status(status=STATUS_DELETED)
-            return redirect(url_for('admin.post'))
+            return redirect(url_for('admin.moment'))
         return render_template("admin/moment.html", navigation=navigation, moments=pagination.items,
                                pagination=pagination,
                                moments_total=len(pagination.items))

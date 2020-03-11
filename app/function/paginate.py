@@ -58,7 +58,7 @@ def get_admin_posts_paginate(page, per_page, status=STATUS_PUBLISH):
 
 def get_admin_moments_paginate(page, per_page, status=STATUS_PUBLISH):
     return db.session.query(Moment.id, User.name.label('username'), Moment.create_time, Moment.content).filter(
-        Moment.status == status, Moment.uid == User.id, ).paginate(page=page, per_page=per_page)
+        Moment.status == status, Moment.uid == User.id, ).order_by(Moment.create_time.desc()).paginate(page=page, per_page=per_page)
 
 
 def get_admin_users_paginate(page, per_page, gid):
