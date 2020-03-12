@@ -3,7 +3,7 @@ import os
 
 from flask_migrate import MigrateCommand
 
-from app import create_app, db
+from app import create_app
 from flask_script import Server, Manager
 
 # 通过FLASK_CONFIG选择配置项
@@ -32,6 +32,7 @@ def my_context_processor():
 
 manager = Manager(app)
 manager.add_command("runserver", Server(host='127.0.0.1', port=8091, use_debugger=True, use_reloader=True))
+# manager.add_command("runserver2", Server(host='127.0.0.1', port=8092, use_debugger=True, use_reloader=True))
 manager.add_command("db", MigrateCommand)
 
 

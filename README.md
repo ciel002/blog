@@ -10,11 +10,11 @@
 2. 创建python虚拟环境，将项目中requirement.txt中的包下载
 3. 在mysql中新建dev-database数据库，用于存放项目数据，并根据app/config.py中的数据库配置项进行配置，保持能够正常连接mysql
 4. 运行python虚拟环境，在命令行中依次输入
-<br>python manager db init 
-<br> python manager db migrate 
-<br> python manager db upgrade 
-<br> python manager init_database
-<br> python manager runserver
+<br> python manager.py db migrate 
+<br> python manager.py db upgrade 
+<br> python manager.py init_database
+<br> python manager.py runserver
+<br>python manager.py db init 
 5. 成功运行（如有问题请联系作者，方式在下方）
 
 ### 二、项目结构说明
@@ -31,7 +31,7 @@
 10. app/view为项目中的视图函数目录（MVC中的C）
 
 ### 三、测试项目
-本项目测试地址：[39.107.25.30](http://39.107.25.30/ "Blog")
+本项目测试地址：[mingchen.xyz](http://39.107.25.30/ "Blog")
 
 ### 四、联系作者
 * QQ：1102839480

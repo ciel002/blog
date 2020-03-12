@@ -1,5 +1,5 @@
 from flask import url_for, redirect, request, render_template
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app.common.constant import STATUS_PUBLISH, STATUS_DRAFT, STATUS_DELETED
 from app.form.admin.post import PostForm
@@ -48,7 +48,7 @@ def add_post():
             title=form.title.data,
             abstract=form.abstract.data,
             content=form.content.data,
-            uid=form.author.data,
+            uid=current_user.id,
             category_id=form.category_id.data,
             rank=form.rank.data,
             is_top=form.is_top.data,
@@ -73,7 +73,7 @@ def alter_post(post_id, post_title):
     form = PostForm()
     if request.method == 'GET':
         post = Post.query.filter_by(id=post_id).first()
-        form.alter_post(post.title, post.abstract, post.content, post.uid, post.category_id
+        form.alter_post(post.title, post.abstract, post.content, post.category_id
                         , post.rank, post.is_top, post.post_property, post.status)
         return render_template("admin/edit_post.html", navigation=navigation, form=form)
     if request.method == 'POST':
@@ -82,7 +82,7 @@ def alter_post(post_id, post_title):
         通过传递的post ID 查询相应的post  更新post内容
         """
         post = Post.query.filter_by(id=post_id).first()
-        post.update_post(form.title.data, form.abstract.data, form.author.data, form.content.data,
+        post.update_post(form.title.data, form.abstract.data, current_user.id, form.content.data,
                          form.category_id.data, form.rank.data, form.is_top.data,
                          form.post_property.data, form.status.data)
         if form.status.data == STATUS_DRAFT:
