@@ -3,7 +3,7 @@ import os
 
 from flask_migrate import MigrateCommand
 
-from app import create_app
+from app import create_app, db
 from flask_script import Server, Manager
 
 # 通过FLASK_CONFIG选择配置项
@@ -28,6 +28,12 @@ def my_context_processor():
         web_config=Config.get_config(),
         categories=Category.get_all_categories(),
     )
+
+
+# 处理数据刷新不一致的问题
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
 
 
 manager = Manager(app)
